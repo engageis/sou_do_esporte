@@ -1,9 +1,9 @@
-## Optional Seed file 
+## Optional Seed file
 ## to be used during development
 
 puts "Adding Uservoice.com settings..."
 
-  Configuration.find_or_create_by_name('uservoice_subdomain').update_attribute('value', 'dummy_domain.uservoice.com')  
+  Configuration.find_or_create_by_name('uservoice_subdomain').update_attribute('value', 'olimpiando.uservoice.com')
   Configuration.find_or_create_by_name('uservoice_sso_key').update_attribute('value', 'dummy_uservoice_sso_key')
 
 
@@ -19,7 +19,7 @@ puts "Adding Admin user..."
     remember_me: false,
     admin: true
   )
-  
+
 puts "Adding Funder user..."
 
   User.find_or_create_by_name!(
