@@ -315,8 +315,8 @@ en:
       help: help
       signup: "sign up"
       signin: login
-      explore: explore
-      submit_project: submit
+      explore: Explore
+      submit_project: Submit
       profile: "my profile"
       account: "my account"
     user:
