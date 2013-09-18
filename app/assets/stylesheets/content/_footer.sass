@@ -1,13 +1,17 @@
+#footer
+  background: #dfdfdf !important
 .footer
   +grid-system(16)
   padding: 0 10px 0 10px
   border: 1px $df_gryn solid
   background: $df_gryn !important
   .content
-    padding-top: 30px
+    padding-top: 50px
     padding-bottom: 10px
+    overflow: hidden
     .info
       width: 820px
+      float: left
       ul
         li
           display: inline-block
@@ -16,9 +20,17 @@
           a
             font-family: $font
             font-size: 16px
-            font-weight: lighter
             color: $main-text
             text-decoration: none
             &:hover
               color: $pink
+      p
+        font-size: 10px
+        font-style: italic
+        color: #B9B8B8
+    .small_logo
+      float: right
+      width: 85px
+      height: 38px
+      background: url($images_path+"logo-small.png")
               
