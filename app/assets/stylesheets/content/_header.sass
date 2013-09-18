@@ -7,39 +7,36 @@
     +grid(4)
     +alpha
     margin-right: 20px
-    height: 54px
+    height: 62px
     border: none
     background: url($images_path+"logo.png") left top no-repeat
     text-indent: -9999em
   nav
     a
       display: inline-block
-      font-family: "Lato"
+      font-family: $font
       text-decoration: none
     &.actions
-      +grid(4)
-      margin-top: 20px
+      +grid(3)
+      margin-top: 24px
+
       a
         color: $ultra_gryn
-        font-size: 18px
+        font-size: 16px
         margin-right: 27px
         &:last-child
           margin-right: 0
         &:hover
           text-decoration: underline
-        &.explore
-          background: url($images_path+"explore_icon23x15.png") left 3px no-repeat
-          text-indent: 30px
-        &.submit_project
-          background: url($images_path+"submit_project_icon25x13.png") left 4px no-repeat
-          text-indent: 30px
+
+
     &.menu
-      +grid(4)
-      margin-top: 20px
+      +grid(5)
+      margin-top: 23px
       a
-        font-family: "Lato"
+        font-family: $font
         text-transform: lowercase
-        color: $ultra_gryn
+        color: $main-text
         font-size: 14px
         margin-right: 12px
         &.my_profile_link
@@ -53,7 +50,7 @@
             +transition(all, 0.5s)
             position: relative
             float: left
-            margin-top: -14px
+            margin-top: -7px
             margin-right: 5px
 
             &:hover
@@ -68,14 +65,14 @@
         &:last-child
           margin-right: none
         &:hover
-          color: $pink
+          color: black
   .search
     +grid(4)
     margin-top: 18px
     form
-      width: 220px
-      height: 22px
-      +border-radius(8px)
+      width: 231px
+      height: 26px
+      +border-radius(18px)
       border: 1px $minimal_gryn solid
       // +box-shadow(rgba(black, 0.1) 1px 1px 2px)
       background: white
@@ -83,8 +80,8 @@
         border: none
         width: 190px
         float: left
-        margin-left: 3px
-        margin-top: 3px
+        margin-left: 14px
+        margin-top: 5px
         &:focus
           outline: none
       input[type="submit"]
@@ -94,4 +91,4 @@
         border: none
         text-indent: -9999em
         float: right
-        margin: 3px 5px 0 0px
+        margin: 5px 10px 0 0px
