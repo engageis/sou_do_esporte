@@ -93,16 +93,16 @@ en:
       contact: Contact
   main:
     links:
-      selected: "explore more projects selected"
-      expiring: "explore more expiring projects"
-      recents: "explore more recent projects"
-      near: "explore more near me projects"
+      selected: "Explore more projects selected"
+      expiring: "Explore more expiring projects"
+      recents: "Explore more recent projects"
+      near: "Explore more near me projects"
   sidebar:
     titles:
-      blog: blog
-      facebook: "have you liked our facebook page yet?"
-      newsletter: "do you want to receive our news?"
-      faq: "have any doubt?"
+      blog: Blog
+      facebook: "Have you liked our facebook page yet?"
+      newsletter: "Do you want to receive our news?"
+      faq: "Dou you have any doubt?"
       schedule: calendar
     buttons:
       newsletter: submit
@@ -311,10 +311,10 @@ en:
       login_with_facebook: "sign in with your facebook account"
       remember_me: "Remember me and keep me connected."
     header:
-      blog: blog
-      help: help
+      blog: Blog
+      help: Help
       signup: "sign up"
-      signin: login
+      signin: Login
       explore: Explore
       submit_project: Submit
       profile: "my profile"

@@ -119,9 +119,9 @@ pt:
     selection:
       title: 'Seleção'
     expiring:
-      title: "Na reta final"
+      title: "Perto da linha de chegada"
     recents:
-      title: "Novos e fresquinhos"
+      title: "Foi dada a largada!"
     partners:
       title: 'Parceiros'
   accept_terms_html: "Eu li e estou de acordo com os %{link}."
@@ -315,7 +315,7 @@ pt:
   i_just_backed: "Eu acabei de apoiar o projeto %{name} no @catarse"
   layouts:
     login:
-      login_with_facebook: "entre com sua conta do facebook"
+      login_with_facebook: "Entre com sua conta do facebook"
       remember_me: "Lembre-se de mim e mantenha-me conectado."
     header:
       blog: Blog
