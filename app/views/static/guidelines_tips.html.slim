@@ -5,8 +5,8 @@
       .title
         h1= t('.title')
         h2= t('.subtitle')
-        h3= t('.introduction_html')
-        p= t('.legend_html')
+        //h3= t('.introduction_html')
+        //p= t('.legend_html')
 
       .tips
         ul
@@ -53,16 +53,12 @@
       .guide
         .guide_download
           = link_to '/guia_realizadores.pdf', target: '_blank' do
-            = image_tag('catarse/box_download.png')
+            = image_tag('sou_do_esporte/box_download.png')
             p= t('.guide')
 
       .bootstrap-form.center_form
         fieldset
           .bootstrap-twitter
-            .curious
-              = link_to t('.explore_curious'), explore_path, :class=>'btn_explore'
-              span = t('.explore_projects')
             .send
               = link_to t('.submit'), new_project_path, :class=>'btn_send'
-              span = t('.send_project')
     .clearfix
