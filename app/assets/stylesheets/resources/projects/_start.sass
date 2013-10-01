@@ -9,7 +9,7 @@
   span.add-on
     font-family: $font
     margin-top: -2px
-    color: $gryn_almost_ccc
+    color: #01133A
   #loading
     display: none
   #page_content
@@ -33,11 +33,9 @@
             color: #01133A
             font-family: $font
             font-size: 14px
-            padding-bottom: 15px
-            border-bottom: 1px dotted #CCCCCC
           p
             font-family: $font
-            color: #666666
+            color: #01133A
             font-size: 16px
             text-align: center
             line-height: 21px
@@ -45,7 +43,7 @@
             margin: 0 auto
             width: 800px
             a
-              color: #F28D0B
+              color: #089247 !important
               text-decoration: none
             b
               float: left
@@ -60,32 +58,33 @@
           position: relative
           span
             background: url($images_path+'box_alert.png') left top no-repeat
-            width: 33px
+            width: 37px
             height: 38px
             position: absolute
-            right: 276px
-            top: 17px
+            right: 285px
+            top: 0
           .alert
             float: right
             min-height: 40px
             width: 250px
-            background-color: #F7F7F7
+            background-color: #E9E9E9
             border: solid 1px #EDEDED
             +border-radius (0px)
             font-family: $font
             font-size: 13px
             line-height: 21px
-            color: #666666
+            color: #172651
             padding: 10px 10px 10px 40px
             a
-              color: #F28D0B
+              color: #089247
               text-decoration: none            
       #project_warning
         .alert
           font-size: 15px
           font-family: $font
           a
-            color: $pink
+            color: #089247 !important
+
       .bootstrap-form
         form
           li#project_user_id_input.input
@@ -93,10 +92,14 @@
           .input 
             float: left
             margin-bottom: 30px
-            padding-bottom: 40px
+            padding-top: 70px
             width: 600px
             width: 100%
-            border-bottom: 1px dotted #CCCCCC
+            border-top: 1px dashed #2fade2
+            &:first-child
+              border-top: 0
+              padding-top: 10px
+
             .input-prepend
               float: left
               width: 42%
@@ -121,39 +124,26 @@
               width: 160px
               float: left
               margin-right: 20px
-              text-align: center
-              font-size: 18px
-              color: #F28D0B
+              font-size: 16px
+              color: #2fade2
               line-height: 21px
           .submit
             .bootstrap-twitter
               width: 100%
               .send
-                position: relative
-                margin: 0 auto
-                width: 240px
                 .btn_send
-                  width: 240px
-                  background: #F28E0B url($images_path+'button_send.png') 15px 12px no-repeat
-                  border: solid 1px #C8760A
-                  height: 62px
-                  padding: 0px 0px 11px 0px
-                  text-transform: uppercase
-                  color: white
-                  text-shadow: 1px 1px #C8760A
-                  font-family: $font
-                  font-weight: 700
-                  font-size: 15px
-                  text-indent: 36px
-                  +border-radius(15px)
-                span
-                  color: white
-                  text-shadow: 1px 1px #C8760A
-                  font-family: $font
-                  font-size: 14px
-                  position: absolute
-                  top: 34px
-                  left: 68px
+                  display: inline-block
+                  padding: 1em 0.7em
+                  text-align: center
+                  border: none
+                  border-radius: 4px
+                  font-weight: bold
+                  font-size: 1.1em
+                  text-decoration: none
+                  transition: 0.2s background
+                  background: #2fade2
+                  color: white !important
+
           .accept
             padding-top: 20px
             padding-bottom: 20px
@@ -163,12 +153,12 @@
             label
               display: inline
               a
-                color: #F28D0B
+                color: #089247
                 text-decoration: none
           label
             font-family: $font
             font-size: 15px
-            color: rgba(black, 0.8)
+            color: #01133A
           textarea
             width: 400px
             +border-radius(8px)
@@ -177,12 +167,12 @@
             font-size: 12px
             font-family: $font
             line-height: 21px
-            color: #666666
+            color: #01133A
             padding-bottom: 20px  
             width: 400px 
             margin-left: 180px
             &.much
               margin-left: 0px
             a
-              color: #F28D0B
+              color: #01133A
               text-decoration: none
