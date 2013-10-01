@@ -43,7 +43,6 @@
     .update
       width: 100%
       float: left
-      border-bottom: 1px #ccc dotted
       padding: 10px
       min-height: 67px
       .time
@@ -448,7 +447,6 @@
             line-height: 130%
             font-family: Arial
             font-size: 12px
-            font-style: italic
             color: #666666
             text-shadow: 1px 1px white
         #pledge
@@ -494,7 +492,7 @@
             padding: 20px 10px 20px 20px
             h4
               font-family: $font
-              font-style: italic
+
               margin-bottom: 5px
               font-size: 18px
               font-weight: normal
@@ -586,7 +584,7 @@
           color: $pink
         p
           font-family: $font
-          font-style: italic
+
           font-size: 16px
         .alert.alert-info
           p
@@ -616,7 +614,7 @@
           color: $pink
           float: left
           font-family: $font
-          font-style: italic
+
           font-size: 18px
           line-height: 24px
           text-align: center
@@ -697,37 +695,34 @@
         padding: 0
         margin: 0
         .btn
-          border: solid 1px $darker_pink
-          color: white
-          display: block
-          font-family: $font
-          text-shadow: 1px 1px $darker_pink
-          font-size: 12px
-          height: 46px
-          padding: 0 15px 0 45px
-          text-transform: uppercase
-          margin-top: 10px
-          margin-right: 10px
-          float: left
-          +border-radius (10px)
-          background: $pink url($images_path+"icon_refreshproject.png") 10px 9px no-repeat
+          display: inline-block
+          padding: 1em 0.7em
+          text-align: center
+          border: none
+          border-radius: 4px
+          font-weight: bold
+          font-size: 1.1em
+          text-decoration: none
+          transition: 0.2s background
+          background: #2fade2
+          color: white !important
+          text-shadow: none
           &:hover
-            background-color: $darker_pink
+            background-color: #429EC5
     #formatting_tips
       padding: 10px
-      background: #F7F7F7
-      border: 1px solid #EDEDED
+      background: #f7f7f7
       margin-right: 10px
-      color: #666666
+      color: #444
+      border-radius: 4px
+      margin-bottom: 35px
+
       h3
-        border-bottom: 1px dotted #CCCCCC
         font-family: $font
-        font-style: italic
         font-size: 18px
-        margin-bottom: 25px
         margin-top: 10px
-        padding-bottom: 10px
-        text-shadow: 1px 1px white
+        margin-left: 10px
+
       p
         font-family: $font
         font-size: 13px
@@ -737,6 +732,8 @@
         margin-right: 15px
         margin-top: 10px
         padding-bottom: 10px
+        &:last-child
+          padding-bottom: 0
       a
         color: $pink
         text-decoration: none
