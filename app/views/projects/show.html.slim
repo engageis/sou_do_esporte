@@ -121,7 +121,7 @@
             p.backer= t('count_backed_projects', total: @project.user.total_backed_projects)
             p.city
               | #{@project.user.address_city}
-        .user_social
+        //.user_social
           ul
             - if @project.user.facebook_link
               li

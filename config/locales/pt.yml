@@ -75,7 +75,7 @@ pt:
   share_my_backs: "Confira o projeto "
   tell_about_this_project: "Conte para o mundo sobre o seu projeto!"
   share_my_projects: "Confira o projeto "
-  count_backed_projects: "apoiou %{total} projetos"
+  count_backed_projects: "%{total} projetos apoiados"
   footer:
     titles:
       info: "informações úteis"

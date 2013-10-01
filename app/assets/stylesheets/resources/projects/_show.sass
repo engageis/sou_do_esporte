@@ -400,7 +400,7 @@
         #pledge
           background: #F3F3F3
         .statistics
-          background: #F3F3F3
+          background: #E4E4E4
           width: 240px
           float: left
           padding: 20px 20px 0 20px
@@ -445,7 +445,7 @@
               text-shadow: 1px 1px #ab242f
           p
             line-height: 130%
-            font-family: Arial
+            font-family: $font
             font-size: 12px
             color: #666666
             text-shadow: 1px 1px white
@@ -456,24 +456,22 @@
           padding-bottom: 20px
           input[type="submit"][disabled="disabled"]
             +opacity(0.6)
-            background: url($images_path+"submit_back_icon25x22.png") 20px center no-repeat $ultra_gryn
           input[type="submit"]
-            display: block
-            margin: 0 auto
-            background: url($images_path+"submit_back_icon25x22.png") 20px center no-repeat $light_green
-            width: 245px
-            height: 55px
+            display: inline-block
+            padding: 1em 3.2em
+            text-align: center
             border: none
-            text-indent: 30px
-            +border-radius(10px)
-            +transition(all, 0.5s)
-            text-transform: uppercase
-            font-family: $font
+            border-radius: 4px
             font-weight: bold
-            font-size: 15px
-            color: white
+            font-size: 1.1em
+            text-decoration: none
+            transition: 0.2s background
+            background: #089247
+            color: white !important 
+            font-family: $font
+            cursor: pointer
             &:hover
-              +box-shadow(rgba(black, 0.3) 0 0 4px inset)
+              background-color: #089247
             &:active
               +box-shadow(rgba(black, 0.3) 0 0 10px inset)
         .bootstrap-twitter
@@ -507,13 +505,12 @@
             &:hover
               color: $pink
           h3
-            background: url($images_path+"profile_icon19x14.png") left 4px no-repeat
+            //background: url($images_path+"profile_icon19x14.png") left 4px no-repeat
             color: #01133A
             font-family: $font
             font-weight: bold
             text-transform: capitalize
             font-size: 18px
-            padding-left: 30px
             display: block
             padding-bottom: 25px
           .avatar
@@ -524,12 +521,11 @@
               width: 70px
               height: 70px
               +border-radius (45px)
-              border: 3px solid #FFC507
           .personal_info
 
             +grid(3)
             +omega
-            margin-left: 0px
+            margin-left: 20px
             p.name
               text-transform: capitalize
               padding-bottom: 6px
@@ -555,13 +551,14 @@
                 padding: 0px
                 font-family: $font
                 font-size: 12px
-                color: $ultra_gryn
+                color: #01133A
                 line-height: 130%
           #city
             +grid(5)
             width: 190px
             margin-top: 6px
             margin-right: 0px
+
             +alpha
             p
               padding: 10px 0
@@ -570,14 +567,18 @@
               color: $ultra_gryn
               line-height: 130%
               &.backer
-                background: url($images_path+"backer_info.png") left 2px no-repeat
                 text-indent: 20px
                 padding: 0px
+                color: #089247
               &.city
-                background: url($images_path+"backer_city.png") left 2px no-repeat
-                text-indent: 20px
+                text-indent: 22px
+                margin-left: 12px
                 padding: 0px
                 margin-right: 20px
+                background: image-url("sou_do_esporte/local-icon.png") 7px no-repeat
+                color: #089247
+                height: 17px
+                padding-top: 4px
     #project_edit, #project_reports
       .bootstrap-twitter
         a
