@@ -3,29 +3,26 @@
   width: 100%
   height: 10px
   padding: 11px 10px
-  border-bottom: 1px $df_gryn solid
   margin-left: -10px
   // margin-bottom: 30px
   nav
     a
-      +border-radius(5px 5px 0 0)
+      +border-radius(4px)
       margin-left: 10px
       margin-right: 5px
       padding: 6px 15px
-      background: $button_green
-      color: white
-      font-family: Arial
-      font-size: 11px
-      text-transform: uppercase
+      background: white
+      color: #ccc
+      font-family: $font
+      font-size: 13px
       text-decoration: none
-      +transition(all, 0.4s)
+      +transition(all, 0.2s)
       &:hover
-        +box-shadow(rgba(black, 0.4) 0px 0px 10px inset)
+        color: #666
+        border: 1px solid #ccc
       &.selected
-        color: black
-        background: white
-        border: 1px $df_gryn solid
-        border-bottom: 2px white solid
-        padding: 10px 15px 6px        
+        color: white
+        background: #2FADE2
+        padding: 9px 23px 9px        
         &:hover
           +box-shadow(none)

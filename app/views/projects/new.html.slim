@@ -4,12 +4,11 @@
       .title
         h1= t('.title')
         h2= t('.subtitle')
-        p= t('.legend_html')
       .bootstrap-form
         .clearfix
         = semantic_form_for @project, html: { id: 'project_form' } do |form|
           = form.inputs do
-            .input.control-group.error
+            //.input.control-group.error
             .input
               .bootstrap-alert
                 span
@@ -128,7 +127,6 @@
                 .bootstrap-twitter
                   .send
                     = submit_tag t('.submit'), id: 'project_submit', class: 'btn_send'
-                    span = t('.send_project')
                   /= form.submit t('.submit'), disabled: true, class: 'btn-large btn-block btn btn-warning', id: 'project_submit', style: 'width: 100%;'
 
     .clearfix

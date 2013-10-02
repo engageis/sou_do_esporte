@@ -7,7 +7,12 @@
   font-weight: bold
   font-size: 1.1em
   text-decoration: none
-  transition: .2s background
+  transition: 0.2s background
+  background: #2fade2
+  color: white !important
+  text-shadow: none
+  &:hover
+    background-color: #429EC5
 
   &.medium
     padding: 0.7em 0.8em
@@ -18,8 +23,7 @@
     &:hover
       background: lighten($default_button_negative_background_color, 5%)
   &.success
-    background: $default_button_success_background_color
-    color: $default_button_success_font_color !important
+
     &:hover
       background: lighten($default_button_success_background_color, 5%)
   &.facebook
