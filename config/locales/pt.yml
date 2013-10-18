@@ -251,10 +251,10 @@ pt:
     index:
       near: 'Próximos a mim'
       categories: Categorias
-      expiring: "Na reta final"
+      expiring: "Perto da linha de chegada"
       quick_explore: "Busca rápida"
-      recent: Recentes
-      recommended: Recomendados
+      recent: "Foi dada a largada"
+      recommended: Seleção
       subtitle: "Explore os projetos, encontre aqueles que mexem com seu coração, e faça acontecer!"
       successful: Bem-sucedidos
       title: "Encontre projetos incríveis"
