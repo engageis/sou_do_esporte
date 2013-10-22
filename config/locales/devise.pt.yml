@@ -2,7 +2,7 @@ pt:
   devise:
     feedback_tab:
       title: 'Feedback e Ajuda'
-      header_html: 'Bem-vindo ao <br/> novo login do Catarse'
+      header_html: 'Bem-vindo ao <br/> novo login do Sou do Esporte'
       blog_button: 'Leia mais no blog'
       form_feedback_link: 'Enviar feedback'
       contact_link: 'Entrar em contato'
@@ -51,7 +51,7 @@ pt:
         site_title: 'Defina uma nova senha'
         label_new_password: 'Digite sua nova senha abaixo'
         title: 'Defina uma nova senha'
-        subtitle: 'Defina uma nova senha para usar seu email e senha quando quiser entrar no Catarse.'
+        subtitle: 'Defina uma nova senha para usar seu email e senha quando quiser entrar no Sou do Esporte.'
         submit: 'Definir nova senha'
     registrations:
       destroyed: Adeus! A sua conta foi cancelada com sucesso. Esperamos vê-lo novamente em breve.
