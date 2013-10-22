@@ -44,7 +44,7 @@ pt:
     address_number: 'Número'
     address_neighbourhood: 'Bairro'
     address_city: 'Cidade'
-    address_state: 'Estado'  
+    address_state: 'Estado'
     address_zip_code: 'CEP'
     anonymous: 'Anônimo'
   edit_project: 'Editar projeto'
@@ -879,3 +879,7 @@ pt:
       weblink: "Ver na web"
       whitelist: "Adicionar contato"
       whitelist_long: "Adicione nosso email a seus contatos"
+  flash:
+    actions:
+      create:
+        alert: "Houve um erro ao criar o projeto, favor verificar novamente os campos"
