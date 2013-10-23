@@ -36,13 +36,13 @@
         +grid(9)
         +omega
         h1
-          color: $ultra_gryn
+          color: #01133a
           font-size: 28px
           font-family: $font
           font-weight: 700
           padding: 4px 0 10px
         h4
-          color: $ultra_gryn
+          color: #01133a
           font-size: 16px
           font-family: Arial
           line-height: 140%
@@ -59,7 +59,7 @@
           +transition(all, 0.5s)
           text-decoration: none
           &:hover
-            color: $pink
+            color: #2fade2
         &.email
           background: url($images_path+'social_icons.png') left top no-repeat
         &.facebook
@@ -97,7 +97,7 @@
           font-size: 24px
           font-family: $font
           font-weight: 700
-          color: $ultra_gryn
+          color: #01133a
           padding-bottom: 5px
       #current_credits
         color: $light_green
@@ -125,7 +125,7 @@
     margin-top: 20px
   #my_data, #social_info, #my_avatar, #change_password, #my_facebook
     h1
-      color: #333333
+      color: #01133a
       font-family: $font
       font-style: italic
       font-size: 24px
@@ -206,17 +206,28 @@
             li#user_address_complement_input, li#user_address_state_input
               margin-right: 0px
           #user_submit
-            background: url($images_path+'bot_profileUser.png') left top no-repeat
             color: #FFFFFF
+            background-color: #2fade2
             display: block
             font-family: $font
             font-size: 12px
             height: 56px
-            text-transform: uppercase
             padding-left: 55px
             width: 221px
             border: none
             margin-bottom: 30px
+
+            padding: 1em 0.7em
+            text-align: center
+            border: none
+            border-radius: 4px
+            font-weight: bold
+            font-size: 1.1em
+            text-decoration: none
+            transition: 0.2s background
+            color: white !important
+
+
           .socialmidia
             #user_newsletter_input, #user_email_input, #user_phone_number_input
               #user_newsletter
