@@ -57,7 +57,7 @@
             = f.input :newsletter, as: :boolean, label: t('.newsletter')
             = f.input :bio, hint: t('.bio_limit'), as: :text, input_html: { rows: 5, cols: 20, maxlength: 140  }
           .bootstrap-twitter
-            p= f.submit t('.update_social_info'), class: 'btn', id: "user_submit"
+            p= f.submit t('.update_social_info'), id: "user_submit"
 #change_password
   h1= t('.change_password')
   ul
