@@ -132,14 +132,16 @@
               &.embed
                 margin-right: 5px
                 a
-                  background: rgba($ultra_gryn, 0.2)
-                  padding: 2px 10px
+                  background: #2fade2
+                  padding: 10px
                   text-decoration: none
-                  color: black
+                  color: white
                   font-family: $font
-                  font-size: 12px
+                  font-size: 13px
                   +border-radius(5px)
                   +transition(all, 0.3s)
+                  text-transform: capitalize
+
                   img
                     padding: 0 7px 0 0
                   &:hover
@@ -312,28 +314,27 @@
             font-family: $font
             font-weight: 700
             font-size: 18px
-            color: #444
+            color: #01133a
             text-transform: uppercase
             padding-bottom: 5px
             text-shadow: 1px 1px white
           em
-            background: url($images_path+"reward_count_icon18x17.png") left top no-repeat
-            color: $_4d_gryn
+            color: #2fade2
             font-family: $font
             font-weight: bold
             font-size: 11px
-            padding: 3px 3px 10px 25px
+            padding: 3px 3px 10px 0
             text-transform: uppercase
             display: block
             text-shadow: 1px 1px white
           p, .on_the_spot_editing
-            color: #444
+            color: #01133a
             font-family: $font
             font-size: 12px
             line-height: 18px
             padding-bottom: 5px
             a
-              color: #64CB64
+              color: #2fade2
               text-decoration: none
               &:hover
                 text-decoration: underline
@@ -342,10 +343,10 @@
             margin-left: 0px
           .reward_deliver_at
             p
-              color: $pink
+              color: #2fade2
           .reward_updated_at
             p
-              color: $blue
+              color: #2fade2
           .description_version
             display: none
             +box-shadow(rgba(black, 0.3) 2px 2px 4px)
@@ -361,16 +362,16 @@
               font-size: 13px
               color: #444444
           .maximum_backers
-            color: #4C525D
-            background: url($images_path+"back_statistics.gif") left top repeat-x
+            color: white
             font-family: $font
-            font-weight: 700
             height: 51px
             width: 282px
-            margin-left: -36px
             font-size: 11px
-            text-indent: 30px
             text-transform: uppercase
+            margin-left: -36px
+            text-indent: 36px
+            background-color: #2fade2
+            margin-bottom: 15px
             &.in_time_to_confirm
               margin-top: 10px
             .limited, .sold_out
@@ -379,7 +380,7 @@
               float: left
               width: 100%
               margin-bottom: 3px
-              text-shadow: 1px 1px white
+
             .sold_out
               color: #e6303c
             .remaining
@@ -387,13 +388,13 @@
               display: inline-block
               margin-right: 10px
               font-size: 11px
-              text-shadow: 1px 1px white
+
             .pending
               padding-top: 20px
-              color: $green
+              color: #2fade2
             .updated_reward
               padding-top: 20px
-              color: $pink
+              color: #2fade2
               span
                 cursor: pointer
       .info

@@ -48,7 +48,7 @@
             p.empty.hide= t('users.backs.no_backs', name: @user.display_name)
           - else
             p.empty.hide= t('users.backs.no_backs_current_user_html', link: ::Configuration[:base_url])
-          .results
+          .results 
           .clearfix
           .loading= image_tag "loading.gif"
           .clearfix
