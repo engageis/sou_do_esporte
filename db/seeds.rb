@@ -52,18 +52,18 @@ puts 'Seeding the database...'
 end
 
 {
-  company_name: 'Catarse',
-  host: 'catarse.me',
-  base_url: "http://catarse.me",
-  blog_url: "http://blog.catarse.me",
-  email_contact: 'contato@catarse.me',
-  email_payments: 'financeiro@catarse.me',
-  email_projects: 'projetos@catarse.me',
-  email_system: 'system@catarse.me',
-  email_no_reply: 'no-reply@catarse.me',
-  facebook_url: "http://facebook.com/catarse.me",
+  company_name: 'Sou do Esporte',
+  host: 'soudoesporte.com',
+  base_url: "http://soudoesporte.com",
+  blog_url: "http://blog.soudoesporte.com",
+  email_contact: 'contato@soudoesporte.com',
+  email_payments: 'financeiro@soudoesporte.com',
+  email_projects: 'projetos@soudoesporte.com',
+  email_system: 'system@soudoesporte.com',
+  email_no_reply: 'no-reply@soudoesporte.com',
+  facebook_url: "http://facebook.com/soudoesporte",
   facebook_app_id: '173747042661491',
-  twitter_username: "catarse",
+  twitter_username: "soudoesporte",
   mailchimp_url: "http://catarse.us5.list-manage.com/subscribe/post?u=ebfcd0d16dbb0001a0bea3639&amp;id=149c39709e",
   catarse_fee: '0.13',
   support_forum: 'http://suporte.catarse.me/',
@@ -88,11 +88,10 @@ Channel.find_or_create_by_name!(
 
 OauthProvider.find_or_create_by_name!(
   name: 'facebook',
-  key: 'your_facebook_app_key',
-  secret: 'your_facebook_app_secret',
+  key: '189455534561793',
+  secret: 'c06a8d8c268b0a10d906ccb9d855f259',
   path: 'facebook'
 )
-
 
 puts
 puts '============================================='
@@ -121,3 +120,4 @@ end
 
 puts '---------------------------------------------'
 puts 'Done!'
+import 'seeds/my_seed.rb'

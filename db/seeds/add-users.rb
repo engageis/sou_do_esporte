@@ -1,4 +1,4 @@
-## Add sample users 
+## Add sample users
 
 puts "Adding Admin user..."
 
@@ -12,7 +12,7 @@ puts "Adding Admin user..."
     remember_me: false,
     admin: true
   )
-  
+
 puts "Adding Funder user..."
 
   User.find_or_create_by_name!(
@@ -38,3 +38,4 @@ puts "Adding Test user..."
   )
 
 puts "Done!"
+
