@@ -1,9 +1,8 @@
-App.views.Project.addChild('ProjectSidebar', _.extend({
+App.views.Project.addChild('ProjectSidebar', {
   el: '.sidebar',
 
   events:{
-    //"click .show_reward_form": "showRewardForm"
-    "click .show_reward_form": "openModalClick",
+    "click .show_reward_form": "showRewardForm",
     "click #rewards .box.clickable" : "selectReward"
   },
 
@@ -16,7 +15,6 @@ App.views.Project.addChild('ProjectSidebar', _.extend({
   activate: function() {
     this.$rewards = this.$('#rewards');
     this.sortableRewards();
-    this.observeRemoteForms();
     this.reloadRewards();
   },
 
@@ -24,20 +22,6 @@ App.views.Project.addChild('ProjectSidebar', _.extend({
     var that = this;
     $.get(that.$rewards.data('index_path')).success(function(data){
       that.$rewards.html(data);
-    });
-  },
-
-  observeRemoteForms: function() {
-    var that = this;
-    $(document).on('ajax:success', '.remote-form', function(evt, data, status, xhr){
-      //NOTE: when data is empty html string we should close the modal.
-      // But we need to find a better solution for this ;)
-      if($.trim(data) == "") {
-        that.$('.skull-modal-close').click();
-        that.reloadRewards();
-      } else {
-        $(evt.target).html(data);
-      }
     });
   },
 
@@ -54,7 +38,7 @@ App.views.Project.addChild('ProjectSidebar', _.extend({
         },
         update: function(e, ui) {
           var csrfToken, position;
-          position = ui.item.index();
+          position = $('#rewards .sortable').index(ui.item);
           csrfToken = $("meta[name='csrf-token']").attr("content");
           return $.ajax({
             type: 'POST',
@@ -70,7 +54,7 @@ App.views.Project.addChild('ProjectSidebar', _.extend({
             }
           });
         }
-      })    
+      })
     }
   },
 
@@ -86,5 +70,5 @@ App.views.Project.addChild('ProjectSidebar', _.extend({
 
     this.$($target.data('target')).fadeIn('fast');
   }
-}, Skull.Modal));
+});
 

@@ -34,7 +34,7 @@ puts 'Seeding the database...'
   { pt: 'Filmes Documentários', en: 'Documentary Films' },
   { pt: 'Filmes Universitários', en: 'Experimental Films' }
 ].each do |name|
-   category = Category.find_or_initialize_by_name_pt name[:pt]
+   category = Category.find_or_initialize_by(name_pt: name[:pt])
    category.update_attributes({
      name_en: name[:en]
    })
@@ -46,52 +46,59 @@ puts 'Seeding the database...'
   'project_visible','processing_payment','new_draft_project', 'new_draft_channel', 'project_rejected',
   'pending_backer_project_unsuccessful', 'project_owner_backer_confirmed', 'adm_project_deadline',
   'project_in_wainting_funds', 'credits_warning', 'backer_confirmed_after_project_was_closed',
-  'backer_canceled_after_confirmed', 'new_user_registration'
+  'backer_canceled_after_confirmed', 'new_user_registration', 'project_rejected_channel', 'project_visible_channel'
 ].each do |name|
-  NotificationType.find_or_create_by_name name
+  NotificationType.find_or_create_by(name: name)
 end
 
 {
-  company_name: 'Sou do Esporte',
-  host: 'soudoesporte.com',
-  base_url: "http://soudoesporte.com",
-  blog_url: "http://blog.soudoesporte.com",
-  email_contact: 'contato@soudoesporte.com',
-  email_payments: 'financeiro@soudoesporte.com',
-  email_projects: 'projetos@soudoesporte.com',
-  email_system: 'system@soudoesporte.com',
-  email_no_reply: 'no-reply@soudoesporte.com',
-  facebook_url: "http://facebook.com/soudoesporte",
+  company_name: 'Catarse',
+  company_logo: 'http://catarse.me/assets/catarse_bootstrap/logo_icon_catarse.png',
+  host: 'catarse.me',
+  base_url: "http://catarse.me",
+
+  email_contact: 'contato@catarse.me',
+  email_payments: 'financeiro@catarse.me',
+  email_projects: 'projetos@catarse.me',
+  email_system: 'system@catarse.me',
+  email_no_reply: 'no-reply@catarse.me',
+  facebook_url: "http://facebook.com/catarse.me",
   facebook_app_id: '173747042661491',
-  twitter_username: "soudoesporte",
+  twitter_url: 'http://twitter.com/catarse',
+  twitter_username: "catarse",
   mailchimp_url: "http://catarse.us5.list-manage.com/subscribe/post?u=ebfcd0d16dbb0001a0bea3639&amp;id=149c39709e",
   catarse_fee: '0.13',
   support_forum: 'http://suporte.catarse.me/',
   base_domain: 'catarse.me',
   uservoice_secret_gadget: 'change_this',
   uservoice_key: 'uservoice_key',
-  project_finish_time: '02:59:59'
+  faq_url: 'http://suporte.catarse.me/',
+  feedback_url: 'http://suporte.catarse.me/forums/103171-catarse-ideias-gerais',
+  terms_url: 'http://suporte.catarse.me/knowledgebase/articles/161100-termos-de-uso',
+  privacy_url: 'http://suporte.catarse.me/knowledgebase/articles/161103-pol%C3%ADtica-de-privacidade',
+  about_channel_url: 'http://blog.catarse.me/conheca-os-canais-do-catarse/',
+  instagram_url: 'http://instagram.com/catarse_',
+  blog_url: "http://blog.catarse.me",
+  github_url: 'http://github.com/catarse',
+  contato_url: 'http://suporte.catarse.me/'
 }.each do |name, value|
-   conf = Configuration.find_or_initialize_by_name name
+   conf = Configuration.find_or_initialize_by(name: name)
    conf.update_attributes({
      value: value
-   })
+   }) if conf.new_record?
 end
 
 
-Channel.find_or_create_by_name!(
-  name: "Channel name",
-  permalink: "sample-permalink",
-  description: "Lorem Ipsum"
-)
+Channel.find_or_create_by!(name: "Channel name") do |c|
+  c.permalink = "sample-permalink"
+  c.description = "Lorem Ipsum"
+end
 
-
-OauthProvider.find_or_create_by_name!(
-  name: 'facebook',
-  key: '189455534561793',
-  secret: 'c06a8d8c268b0a10d906ccb9d855f259',
-  path: 'facebook'
-)
+OauthProvider.find_or_create_by!(name: 'facebook') do |o|
+  o.key = 'your_facebook_app_key'
+  o.secret = 'your_facebook_app_secret'
+  o.path = 'facebook'
+end
 
 puts
 puts '============================================='

@@ -1,11 +1,15 @@
 class Channels::ProfilesController < Channels::BaseController
+  layout 'catarse_bootstrap'
+  add_to_menu 'channels.admin.profile_menu', :edit_channels_profile_path
   inherit_resources
-  defaults resource_class: Channel, finder: :find_by_permalink! 
-  actions :show
+  actions :show, :edit, :update
   custom_actions resource: [:how_it_works]
 
+  before_action only: [:edit, :update] do
+    authorize!(params[:action], resource)
+  end
 
-
-  before_filter{ params[:id] = request.subdomain }
-
+  def resource
+    @profile ||= channel
+  end
 end

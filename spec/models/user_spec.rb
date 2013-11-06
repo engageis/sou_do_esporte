@@ -16,8 +16,9 @@ describe User do
     it{ should have_many :unsubscribes }
     it{ should have_many :authorizations }
     it{ should have_many(:oauth_providers).through(:authorizations) }
+    it{ should have_many :channels_subscribers }
     it{ should have_one :user_total }
-    it{ should have_and_belong_to_many :channels }
+    it{ should belong_to :channel }
     it{ should have_and_belong_to_many :subscriptions }
   end
 
@@ -41,6 +42,26 @@ describe User do
         failed_project.update_attributes state: 'failed'
         @u = b.user
         b = create(:backer, state: 'confirmed', value: 100, project: successful_project)
+      end
+      it{ should == [@u] }
+    end
+  end
+
+  describe ".has_not_used_credits_last_month" do
+    subject{ User.has_not_used_credits_last_month }
+
+    context "when he has used credits in the last month" do
+      before do
+        b = create(:backer, state: 'confirmed', value: 100, credits: true)
+        @u = b.user
+      end
+      it{ should == [] }
+    end
+    context "when he has not used credits in the last month" do
+      before do
+        b = create(:backer, state: 'confirmed', value: 100, project: failed_project)
+        failed_project.update_attributes state: 'failed'
+        @u = b.user
       end
       it{ should == [@u] }
     end
@@ -251,10 +272,13 @@ describe User do
       create(:backer, state: 'confirmed', credits: true, value: 50, user_id: @u.id, project: unfinished_project)
       create(:backer, state: 'confirmed', credits: true, value: 100, user_id: @u.id, project: failed_project)
       create(:backer, state: 'requested_refund', credits: false, value: 200, user_id: @u.id, project: failed_project)
+      create(:backer, state: 'refunded', credits: false, value: 200, user_id: @u.id, project: failed_project)
       failed_project.update_attributes state: 'failed'
       successful_project.update_attributes state: 'successful'
     end
+
     subject{ @u.credits }
+
     it{ should == 50.0 }
   end
 
@@ -332,23 +356,4 @@ describe User do
       it{ should == 'http://facebook.com/foo' }
     end
   end
-
-  describe "#trustee?" do
-    let(:user) { create(:user) }
-
-    context "when user is a moderator of one or more channels" do
-      it "should return true" do
-        user.channels << create(:channel)
-        expect(user.trustee?).to eq(true)
-      end
-    end
-
-    context "when user is not a moderator of any channels" do
-      it "should return false" do
-        expect(user.trustee?).to eq(false)
-      end
-    end
-
-  end
-
 end

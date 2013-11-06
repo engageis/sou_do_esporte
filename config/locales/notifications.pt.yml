@@ -1,5 +1,7 @@
 pt:
   notifications:
+    project_rejected_channel:
+      subject: "Seu projeto não foi aceito pelo %{channel_name}"
     new_user_registration:
       subject: 'Bem-vindo ao Catarse!'
       header: 'Bem-vindo ao Catarse!'
@@ -19,7 +21,8 @@ pt:
       subject: "Seu apoio para %{project_name} foi recebido e está aguardando confirmação do %{payment_method}"
       header: "Apoio Em Análise - o que é isso?"
     updates:
-      subject: "Se liga! Atualização de %{project_name} por %{project_owner}: %{update_title}"
+      subject: "Novidade #%{update_number} - %{project_name}"
+      header: "Novidade #%{update_number} - %{project_name}"
     project_in_wainting_funds:
       subject: "O prazo do seu projeto acabou, saiba quais são os próximos passos"
       header: "Acabou o prazo!"
@@ -42,8 +45,9 @@ pt:
       subject: "O seu projeto foi recebido pelo Catarse"
       header: "O seu projeto foi recebido pela equipe do Catarse"
     project_received_channel:
-      subject: "O seu projeto foi recebido Canal Asas"
-      header: "O seu projeto foi recebido pela equipe do Canal Asas"
+      subject: "O seu projeto foi recebido pelo %{channel_name}"
+    project_visible_channel:
+      subject: "Projeto no ar!"
     project_visible:
       subject: "Seu projeto está no ar no Catarse o/"
       header: "Agora é pra valer"

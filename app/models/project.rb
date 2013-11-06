@@ -13,15 +13,10 @@ class Project < ActiveRecord::Base
     to: :decorator
 
   schema_associations
-  belongs_to :user
-  has_many :backers, dependent: :destroy
-  has_many :rewards, dependent: :destroy
-  has_many :updates, dependent: :destroy
-  has_many :notifications, dependent: :destroy
 
   has_and_belongs_to_many :channels
-
   has_one :project_total
+  has_many :rewards
   accepts_nested_attributes_for :rewards
 
   catarse_auto_html_for field: :about, video_width: 600, video_height: 403
@@ -35,44 +30,43 @@ class Project < ActiveRecord::Base
     using: {tsearch: {dictionary: "portuguese"}},
     ignoring: :accents
 
-  scope :not_deleted_projects, ->() { where("projects.state <> 'deleted'") }
+  # Used to simplify a has_scope
+  scope :successful, ->{ with_state('successful') }
+  scope :with_project_totals, -> { joins('LEFT OUTER JOIN project_totals pt ON pt.project_id = projects.id') }
+
   scope :by_progress, ->(progress) { joins(:project_total).where("project_totals.pledged >= projects.goal*?", progress.to_i/100.to_f) }
-  scope :by_state, ->(state) { where(state: state) }
   scope :by_id, ->(id) { where(id: id) }
-  scope :by_permalink, ->(p) { not_deleted_projects.where("lower(permalink) = lower(?)", p) }
+  scope :by_goal, ->(goal) { where(goal: goal) }
+  scope :by_online_date, ->(online_date) { where("online_date::date = ?", online_date.to_date) }
+  scope :by_expires_at, ->(expires_at) { where("projects.expires_at::date = ?", expires_at.to_date) }
+  scope :by_updated_at, ->(updated_at) { where("updated_at::date = ?", updated_at.to_date) }
+  scope :by_permalink, ->(p) { without_state('deleted').where("lower(permalink) = lower(?)", p) }
   scope :by_category_id, ->(id) { where(category_id: id) }
   scope :name_contains, ->(term) { where("unaccent(upper(name)) LIKE ('%'||unaccent(upper(?))||'%')", term) }
   scope :user_name_contains, ->(term) { joins(:user).where("unaccent(upper(users.name)) LIKE ('%'||unaccent(upper(?))||'%')", term) }
-  scope :order_table, ->(sort) {
-    if sort == 'desc'
-      order('goal desc')
-    elsif sort == 'asc'
-      order('goal asc')
-    else
-      order('created_at desc')
-    end
-  }
-
-  scope :near_of, ->(address_state) { joins(:user).where("lower(users.address_state) = lower(?)", address_state) }
-  scope :visible, where("projects.state NOT IN ('draft', 'rejected', 'deleted')")
-  scope :financial, where("((projects.expires_at) > (current_timestamp) - '15 days'::interval) AND (state in ('online', 'successful', 'waiting_funds'))")
-  scope :recommended, where(recommended: true)
-  scope :expired, where("(projects.expires_at) < (current_timestamp)")
-  scope :not_expired, where("(projects.expires_at) >= (current_timestamp)")
-  scope :expiring, not_expired.where("(projects.expires_at) <= ((current_timestamp) + interval '2 weeks')")
-  scope :not_expiring, not_expired.where("NOT ((projects.expires_at) <= ((current_timestamp) + interval '2 weeks'))")
-  scope :recent, where("(current_timestamp) - projects.online_date <= '5 days'::interval")
-  scope :successful, where(state: 'successful')
-  scope :online, where(state: 'online')
+  scope :near_of, ->(address_state) { where("EXISTS(SELECT true FROM users u WHERE u.id = projects.user_id AND lower(u.address_state) = lower(?))", address_state) }
+  scope :to_finish, ->{ expired.with_states(['online', 'waiting_funds']) }
+  scope :visible, -> { without_states(['draft', 'rejected', 'deleted']) }
+  scope :financial, -> { with_states(['online', 'successful', 'waiting_funds']).where("projects.expires_at > (current_timestamp - '15 days'::interval)") }
+  scope :recommended, -> { where(recommended: true) }
+  scope :expired, -> { where("projects.expires_at < current_timestamp") }
+  scope :not_expired, -> { where("projects.expires_at >= current_timestamp") }
+  scope :expiring, -> { not_expired.where("projects.expires_at <= (current_timestamp + interval '2 weeks')") }
+  scope :not_expiring, -> { not_expired.where("NOT (projects.expires_at <= (current_timestamp + interval '2 weeks'))") }
+  scope :recent, -> { where("(current_timestamp - projects.online_date) <= '5 days'::interval") }
   scope :order_for_search, ->{ reorder("
                                      CASE projects.state
                                      WHEN 'online' THEN 1
                                      WHEN 'waiting_funds' THEN 2
                                      WHEN 'successful' THEN 3
                                      WHEN 'failed' THEN 4
-                                     END ASC, online_date DESC, created_at DESC, id DESC") }
+                                     END ASC, projects.online_date DESC, projects.created_at DESC") }
   scope :backed_by, ->(user_id){
     where("id IN (SELECT project_id FROM backers b WHERE b.state = 'confirmed' AND b.user_id = ?)", user_id)
+  }
+
+  scope :from_channels, ->(channels){
+    where("EXISTS (SELECT true FROM channels_projects cp WHERE cp.project_id = projects.id AND cp.channel_id = ?)", channels)
   }
 
   attr_accessor :accepted_terms
@@ -83,23 +77,26 @@ class Project < ActiveRecord::Base
   validates_presence_of :name, :user, :category, :about, :headline, :goal, :permalink
   validates_length_of :headline, maximum: 140
   validates_numericality_of :online_days, less_than_or_equal_to: 60
-  validates_uniqueness_of :permalink, allow_blank: true, allow_nil: true, case_sensitive: false
-  validates_format_of :permalink, with: /^(\w|-)*$/, allow_blank: true, allow_nil: true
-  validates_format_of :video_url, with: /https?:\/\/(www\.)?vimeo.com\/(\d+)/, message: I18n.t('project.video_regex_validation'), allow_blank: true
+  validates_uniqueness_of :permalink, allow_blank: true, case_sensitive: false
+  validates_format_of :permalink, with: /\A(\w|-)*\z/, allow_blank: true
+  validates_format_of :video_url, with: /(https?\:\/\/|)(youtube|vimeo).*+/, message: I18n.t('project.video_regex_validation'), allow_blank: true
   validate :permalink_cant_be_route, allow_nil: true
 
-  def self.between_created_at(start_at, ends_at)
-    return scoped unless start_at.present? && ends_at.present?
-    where("created_at between to_date(?, 'dd/mm/yyyy') and to_date(?, 'dd/mm/yyyy')", start_at, ends_at)
+  def self.between_created_at(starts_at, ends_at)
+    between_dates 'created_at', starts_at, ends_at
   end
 
-  def self.between_expires_at(start_at, ends_at)
-    return scoped unless start_at.present? && ends_at.present?
-    where("projects.expires_at between to_date(?, 'dd/mm/yyyy') and to_date(?, 'dd/mm/yyyy')", start_at, ends_at)
+  def self.between_expires_at(starts_at, ends_at)
+    between_dates 'expires_at', starts_at, ends_at
+  end
+
+  def self.order_by(sort_field)
+    return scoped unless sort_field =~ /^\w+(\.\w+)?\s(desc|asc)$/i
+    order(sort_field)
   end
 
   def self.finish_projects!
-    expired.each do |resource|
+    to_finish.each do |resource|
       Rails.logger.info "[FINISHING PROJECT #{resource.id}] #{resource.name}"
       resource.finish
     end
@@ -120,7 +117,7 @@ class Project < ActiveRecord::Base
   end
 
   def expires_at
-    online_date && Time.parse((online_date + online_days.days).strftime("%Y-%m-%d #{::Configuration[:project_finish_time]}"))
+    online_date && (online_date + online_days.days).end_of_day
   end
 
   def video
@@ -140,39 +137,30 @@ class Project < ActiveRecord::Base
   end
 
   def selected_rewards
-    rewards.sort_asc.where(id: backers.confirmed.select('DISTINCT(reward_id)'))
+    rewards.sort_asc.where(id: backers.with_state('confirmed').map(&:reward_id))
   end
 
   def reached_goal?
     pledged >= goal
   end
 
-  def finished?
-    not online? and not draft? and not rejected?
-  end
-
   def expired?
-    expires_at && expires_at < Time.now
+    expires_at && expires_at < Time.zone.now
   end
 
   def in_time_to_wait?
-    backers.in_time_to_confirm.count > 0
-  end
-
-  def in_time?
-    !expired?
+    backers.with_state('waiting_confirmation').count > 0
   end
 
   def progress
-    return 0 if goal == 0.0 && pledged == 0.0
-    return 100 if goal == 0.0 && pledged > 0.0
+    return 0 if goal == 0.0
     ((pledged / goal * 100).abs).round(pledged.to_i.size).to_i
   end
 
   def time_to_go
     ['day', 'hour', 'minute', 'second'].each do |unit|
       if expires_at.to_i >= 1.send(unit).from_now.to_i
-        time = ((expires_at - Time.now).abs/1.send(unit)).round
+        time = ((expires_at - Time.zone.now).abs/1.send(unit)).round
         return {time: time, unit: pluralize_without_number(time, I18n.t("datetime.prompts.#{unit}").downcase)}
       end
     end
@@ -195,39 +183,12 @@ class Project < ActiveRecord::Base
     Rails.logger.info "-----> #{e.inspect}"
   end
 
-  def as_json(options={})
-    {
-      id: id,
-      name: name,
-      user: user,
-      category: category,
-      image: display_image,
-      headline: headline,
-      progress: progress,
-      display_progress: display_progress,
-      pledged: display_pledged,
-      created_at: created_at,
-      time_to_go: time_to_go,
-      remaining_text: remaining_text,
-      embed_url: video_embed_url ? video_embed_url : (video ? video.embed_url : nil),
-      url: Rails.application.routes.url_helpers.project_by_slug_path(permalink, locale: I18n.locale),
-      full_uri: Rails.application.routes.url_helpers.project_by_slug_url(permalink, locale: I18n.locale),
-      expired: expired?,
-      successful: successful? || reached_goal?,
-      waiting_funds: waiting_funds?,
-      failed: failed?,
-      display_status_to_box: display_status.blank? ? nil : I18n.t("project.display_status.#{display_status}"),
-      display_expires_at: display_expires_at,
-      in_time: in_time?
-    }
-  end
-
   def pending_backers_reached_the_goal?
-    (pledged + backers.in_time_to_confirm.sum(&:value)) >= goal
+    pledged_and_waiting >= goal
   end
 
-  def can_go_to_second_chance?
-    ((pledged + backers.in_time_to_confirm.sum(&:value)) >= (goal*0.3.to_f)) && (4.weekdays_from(expires_at) >= DateTime.now)
+  def pledged_and_waiting
+    backers.with_states(['confirmed', 'waiting_confirmation']).sum(:value)
   end
 
   def permalink_cant_be_route
@@ -266,11 +227,11 @@ class Project < ActiveRecord::Base
 
     event :finish do
       transition online: :failed,             if: ->(project) {
-        project.expired? && !project.pending_backers_reached_the_goal? && !project.can_go_to_second_chance?
+        project.should_fail? && !project.pending_backers_reached_the_goal?
       }
 
       transition online: :waiting_funds,      if: ->(project) {
-        project.expired? && (project.pending_backers_reached_the_goal? || project.can_go_to_second_chance?)
+        project.expired? && project.pending_backers_reached_the_goal?
       }
 
       transition waiting_funds: :successful,  if: ->(project) {
@@ -278,60 +239,26 @@ class Project < ActiveRecord::Base
       }
 
       transition waiting_funds: :failed,      if: ->(project) {
-        project.expired? && !project.reached_goal? && !project.in_time_to_wait? && !project.can_go_to_second_chance?
+        project.should_fail? && !project.in_time_to_wait?
       }
 
       transition waiting_funds: :waiting_funds,      if: ->(project) {
-        project.expired? && !project.reached_goal? && (project.in_time_to_wait? || project.can_go_to_second_chance?)
+        project.should_fail? && project.in_time_to_wait?
       }
     end
 
-    after_transition online: :waiting_funds, do: :after_transition_of_online_to_waiting_funds
-    after_transition online: :failed, do: :after_transition_of_online_to_failed
-    after_transition waiting_funds: [:successful, :failed], do: :after_transition_of_wainting_funds_to_successful_or_failed
-    after_transition waiting_funds: :successful, do: :after_transition_of_wainting_funds_to_successful
-    after_transition draft: :online, do: :after_transition_of_draft_to_online
-    after_transition draft: :rejected, do: :after_transition_of_draft_to_rejected
-    after_transition any => [:failed, :successful], :do => :after_transition_of_any_to_failed_or_successful
-    after_transition :waiting_funds => [:failed, :successful], :do => :after_transition_of_waiting_funds_to_failed_or_successful
-    after_transition [:draft, :rejected] => :deleted, :do => :after_transition_of_draft_or_rejected_to_deleted
-  end
-
-  def after_transition_of_draft_or_rejected_to_deleted
-    update_attributes({ permalink: "deleted_project_#{id}"})
-  end
-
-  def after_transition_of_online_to_waiting_funds
-    notify_observers :notify_owner_that_project_is_waiting_funds
-  end
-
-  def after_transition_of_waiting_funds_to_failed_or_successful
-    notify_observers :notify_admin_that_project_reached_deadline
-  end
-
-  def after_transition_of_any_to_failed_or_successful
-    notify_observers :sync_with_mailchimp
-  end
-
-  def after_transition_of_online_to_failed
-    notify_observers :notify_users
-  end
-
-  def after_transition_of_wainting_funds_to_successful
-    notify_observers :notify_owner_that_project_is_successful
-  end
-
-  def after_transition_of_draft_to_rejected
-    notify_observers :notify_owner_that_project_is_rejected
-  end
-
-  def after_transition_of_wainting_funds_to_successful_or_failed
-    notify_observers :notify_users
-  end
-
-  def after_transition_of_draft_to_online
-    update_attributes({ online_date: DateTime.now })
-    notify_observers :notify_owner_that_project_is_online
+    after_transition do |project, transition|
+      project.notify_observers :"from_#{transition.from}_to_#{transition.to}"
+    end
+    after_transition draft: :online do |project, transition|
+      project.update_attributes({ online_date: DateTime.now })
+    end
+    after_transition any => [:failed, :successful] do |project, transition|
+      project.notify_observers :sync_with_mailchimp
+    end
+    after_transition [:draft, :rejected] => :deleted do |project, transition|
+      project.update_attributes({ permalink: "deleted_project_#{project.id}"})
+    end
   end
 
   def new_draft_recipient
@@ -339,15 +266,20 @@ class Project < ActiveRecord::Base
     User.where(email: email).first
   end
 
-  def new_draft_project_notification_type
-    channels.first ? :new_draft_project_channel : :new_draft_project
+  def notification_type type
+    channels.first ? "#{type}_channel".to_sym : type
   end
 
-  def new_project_received_notification_type
-    channels.first ? :project_received_channel : :project_received
+  def should_fail?
+    expired? && !reached_goal?
   end
 
   private
+  def self.between_dates(attribute, starts_at, ends_at)
+    return scoped unless starts_at.present? && ends_at.present?
+    where("projects.#{attribute}::date between to_date(?, 'dd/mm/yyyy') and to_date(?, 'dd/mm/yyyy')", starts_at, ends_at)
+  end
+
   def self.get_routes
     routes = Rails.application.routes.routes.map do |r|
       r.path.spec.to_s.split('/').second.to_s.gsub(/\(.*?\)/, '')

@@ -5,6 +5,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :redirect_user_back_after_login, unless: :devise_controller?
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+
+  rescue_from ActionController::RoutingError, with: :render_404
+  rescue_from ActionController::UnknownController, with: :render_404
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   rescue_from CanCan::Unauthorized do |exception|
     session[:return_to] = request.env['REQUEST_URI']
@@ -19,14 +24,38 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  helper_method :namespace, :fb_admins, :render_facebook_sdk, :render_facebook_like, :render_twitter, :display_uservoice_sso
+  helper_method :channel, :namespace, :fb_admins, :render_facebook_sdk, :render_facebook_like, :render_twitter, :display_uservoice_sso
 
   before_filter :set_locale
   before_filter :force_http
 
+  before_action :referal_it!
+
   # TODO: Change this way to get the opendata
   before_filter do
     @fb_admins = [100000428222603, 547955110]
+  end
+
+  @@menu_items = {}
+  cattr_accessor :menu_items
+
+  def self.add_to_menu i18n_name, path
+    menu I18n.t(i18n_name) => path
+  end
+
+  def self.menu menu
+    self.menu_items.merge! menu
+  end
+
+  def menu
+    ApplicationController.menu_items.inject({}) do |memo, el|
+      memo.merge!(el.first => Rails.application.routes.url_helpers.send(el.last)) if can? :access, el.last
+      memo
+    end
+  end
+
+  def channel
+    Channel.find_by_permalink(request.subdomain.to_s)
   end
 
   # We use this method only to make stubing easier
@@ -53,6 +82,14 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  def referal_it!
+    session[:referal_link] = params[:ref] if params[:ref].present?
+  end
+
+  def detect_old_browsers
+    return redirect_to page_path("bad_browser") if (!browser.modern? || browser.ie9?) && controller_name != 'pages'
+  end
+
   def fb_admins
     @fb_admins.join(',')
   end
@@ -101,8 +138,12 @@ class ApplicationController < ActionController::Base
     (return_to || root_path)
   end
 
-  def render_404
-    render file: "#{Rails.root}/public/404.html", status: 404, layout: false
+  def render_404(exception)
+    @not_found_path = exception.message
+    respond_to do |format|
+      format.html { render template: 'errors/not_found', layout: 'layouts/catarse_bootstrap', status: 404 }
+      format.all { render nothing: true, status: 404 }
+    end
   end
 
   def force_http
@@ -115,4 +156,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name,
+                                                            :email,
+                                                            :password, :newsletter) }
+  end
+
+  def current_ability
+    @current_ability ||= Ability.new(current_user, { channel: channel })
+  end
 end

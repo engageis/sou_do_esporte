@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Project do
   let(:project){ build(:project, goal: 3000) }
   let(:user){ create(:user) }
-  let(:channel){ create(:channel, email: user.email, trustees: [ user ]) }
+  let(:channel){ create(:channel, email: user.email, users: [ user ]) }
   let(:channel_project){ create(:project, channels: [ channel ]) }
 
   describe "associations" do
@@ -24,7 +24,11 @@ describe Project do
     end
     it{ should ensure_length_of(:headline).is_at_most(140) }
     it{ should allow_value('http://vimeo.com/12111').for(:video_url) }
+    it{ should allow_value('vimeo.com/12111').for(:video_url) }
     it{ should allow_value('https://vimeo.com/12111').for(:video_url) }
+    it{ should allow_value('http://youtube.com/watch?v=UyU-xI').for(:video_url) }
+    it{ should allow_value('youtube.com/watch?v=UyU-xI').for(:video_url) }
+    it{ should allow_value('https://youtube.com/watch?v=UyU-xI').for(:video_url) }
     it{ should_not allow_value('http://www.foo.bar').for(:video_url) }
     it{ should allow_value('testproject').for(:permalink) }
     it{ should_not allow_value('users').for(:permalink) }
@@ -72,44 +76,6 @@ describe Project do
     end
   end
 
-  describe '.not_deleted_projects' do
-    before do
-      create(:project,  state: 'online')
-      create(:project,  state: 'draft')
-      create(:project,  state: 'deleted')
-    end
-
-    subject { Project.not_deleted_projects }
-
-    it { should have(2).itens }
-  end
-
-  describe '.by_state' do
-    before do
-      @project_01 = create(:project, state: 'online')
-      @project_02 = create(:project, state: 'failed')
-      @project_03 = create(:project, state: 'successful')
-    end
-
-    context 'get all projects that is online' do
-      subject { Project.by_state('online') }
-
-      it { should == [@project_01] }
-    end
-
-    context 'get all projects that is failed' do
-      subject { Project.by_state('failed') }
-
-      it { should == [@project_02] }
-    end
-
-    context 'get all projects that is successful' do
-      subject { Project.by_state('successful') }
-
-      it { should == [@project_03] }
-    end
-  end
-
   describe '.by_progress' do
     subject { Project.by_progress(20) }
 
@@ -125,6 +91,53 @@ describe Project do
     end
 
     it { should have(2).itens }
+  end
+
+  describe '.by_goal' do
+    subject { Project.by_goal(200) }
+
+    before do
+      @project_01 = create(:project, goal: 100)
+      @project_02 = create(:project, goal: 200)
+
+    end
+
+    it { should = [@project_02] }
+  end
+
+  describe '.by_online_date' do
+    subject { Project.by_online_date(Time.now.to_date.to_s) }
+
+    before do
+      @project_01 = create(:project, online_date: Time.now.to_s)
+      @project_02 = create(:project, online_date: 2.weeks.ago)
+
+    end
+
+    it { should = [@project_01] }
+  end
+
+  describe '.by_expires_at' do
+    subject { Project.by_expires_at('10/10/2013') }
+
+    before do
+      @project_01 = create(:project, online_date: '10/10/2013', online_days: 0)
+      @project_02 = create(:project, online_date: '09/10/2013', online_days: 0)
+    end
+
+    it { should = [@project_01] }
+  end
+
+  describe '.order_by' do
+    subject { Project.last.name }
+
+    before do
+      create(:project, name: 'lorem')
+      #testing for sql injection
+      Project.order_by("goal asc;update projects set name ='test';select * from projects ").first #use first so the sql is actually executed
+    end
+
+    it { should == 'lorem' }
   end
 
   describe '.between_created_at' do
@@ -151,45 +164,33 @@ describe Project do
     let(:project_03) { create(:project) }
 
     before do
-      project_01.update_attributes({ online_date: '19/01/2013'.to_time, online_days: 0 })
-      project_02.update_attributes({ online_date: '23/01/2013'.to_time, online_days: 0 })
-      project_03.update_attributes({ online_date: '26/01/2013'.to_time, online_days: 0 })
+      project_01.update_attributes({ online_date: '17/01/2013'.to_time, online_days: 0 })
+      project_02.update_attributes({ online_date: '21/01/2013'.to_time, online_days: 0 })
+      project_03.update_attributes({ online_date: '23/01/2013'.to_time, online_days: 0 })
     end
 
-    it { should == [project_01] }
+    it { should == [project_01, project_02] }
+  end
+
+  describe '.to_finish' do
+    before do
+      Project.should_receive(:expired).and_call_original
+      Project.should_receive(:with_states).with(['online', 'waiting_funds']).and_call_original
+    end
+    it "should call scope expired and filter states that can be finished" do
+      Project.to_finish
+    end
   end
 
   describe '.finish_projects!' do
+    let(:project){ double('project', id: 1, name: 'test') }
     before do
-      @project_01 = create(:project, online_days: -1, goal: 300, state: 'online')
-      @project_02 = create(:project, online_days: 5, goal: 300, state: 'online')
-      @project_03 = create(:project, online_days: -7, goal: 300, state: 'online')
-      backer = create(:backer, project: @project_03, value: 3000, state: 'confirmed')
-      @project_03.update_attributes state: 'waiting_funds'
-      pending_backer = create(:backer, project: @project_01, value: 340, state: 'waiting_confirmation')
-      @project_04 = create(:project, online_days: -7, goal: 300, state: 'waiting_funds')
+      Project.should_receive(:to_finish).and_return([project])
+      project.should_receive(:finish)
+    end
+
+    it "should iterate through to_finish projects and call finish to each one" do
       Project.finish_projects!
-      @project_01.reload
-      @project_02.reload
-      @project_03.reload
-      @project_04.reload
-    end
-
-
-    it 'should turn state to waiting funds' do
-      @project_01.waiting_funds?.should be_true
-    end
-
-    it 'should not change state when project is not expired and already reached the goal' do
-      @project_02.online?.should be_true
-    end
-
-    it 'should change state to successful when project already in waiting funds and reached the goal' do
-      @project_03.successful?.should be_true
-    end
-
-    it 'should change state to failed when project already in waiting funds and not reached the goal' do
-      @project_04.failed?.should be_true
     end
   end
 
@@ -254,30 +255,14 @@ describe Project do
     it{ should == [@p] }
   end
 
-  describe ".online" do
+  describe ".from_channels" do
+    let(:channel){create(:channel)}
     before do
-      @p = create(:project, state: 'online')
-      create(:project, state: 'draft')
+      @p = create(:project, channels: [channel])
+      create(:project, channels: [])
     end
-    subject{ Project.online}
+    subject{ Project.from_channels([channel.id]) }
     it{ should == [@p] }
-  end
-
-  describe '#can_go_to_second_chance?' do
-    let(:project) { create(:project, goal: 100, online_days: -3) }
-    subject { project.can_go_to_second_chance? }
-
-    before { create(:backer, value: 20, state: 'confirmed', project: project) }
-
-    context 'when confirmed and pending backers reached 30% of the goal and in time to wait to wait' do
-      before { create(:backer, value: 10, state: 'waiting_confirmation', project: project) }
-
-      it { should be_true }
-    end
-
-    context 'when confirmed and pending backers reached less of 30% of the goal' do
-      it { should be_false }
-    end
   end
 
   describe '#reached_goal?' do
@@ -345,12 +330,23 @@ describe Project do
 
     context "when goal is 0.0 and pledged > 0.0" do
       let(:pledged){ 10.0 }
-      it{ should == 100 }
+      it{ should == 0 }
     end
 
     context "when goal is 0.0 and pledged is 0.0" do
       it{ should == 0 }
     end
+  end
+
+  describe "#pledged_and_waiting" do
+    subject{ project.pledged_and_waiting }
+    before do
+      @confirmed = create(:backer, value: 10, state: 'confirmed', project: project)
+      @waiting = create(:backer, value: 10, state: 'waiting_confirmation', project: project)
+      create(:backer, value: 100, state: 'refunded', project: project)
+      create(:backer, value: 1000, state: 'pending', project: project)
+    end
+    it{ should == @confirmed.value + @waiting.value }
   end
 
   describe "#pledged" do
@@ -466,19 +462,6 @@ describe Project do
     end
   end
 
-  describe "#in_time?" do
-    subject{ project.in_time? }
-    context "when expires_at is in the future" do
-      let(:project){ Project.new online_date: 2.days.from_now, online_days: 0 }
-      it{ should be_true }
-    end
-
-    context "when expires_at is in the past" do
-      let(:project){ Project.new online_date: 2.days.ago, online_days: 0 }
-      it{ should be_false }
-    end
-  end
-
   describe "#expires_at" do
     subject{ project.expires_at }
     context "when we do not have an online_date" do
@@ -486,9 +469,8 @@ describe Project do
       it{ should be_nil }
     end
     context "when we have an online_date" do
-      before {Configuration[:project_finish_time] = '02:59:59'}
       let(:project){ build(:project, online_date: Time.now, online_days: 0) }
-      it{ should == Time.parse(Configuration[:project_finish_time]) }
+      it{ should == Time.zone.now.end_of_day }
     end
   end
 
@@ -582,29 +564,15 @@ describe Project do
     end
   end
 
-  describe "#new_draft_project_notification_type" do
-    subject{ project.new_draft_project_notification_type }
-
+  describe "#notification_type" do
+    subject { project.notification_type(:foo) }
     context "when project does not belong to any channel" do
-      it{ should == :new_draft_project }
+      it { should eq(:foo) }
     end
 
     context "when project does belong to a channel" do
       let(:project) { channel_project }
-      it{ should == :new_draft_project_channel }
-    end
-  end
-
-  describe "#new_project_received_notification_type" do
-    subject{ project.new_project_received_notification_type }
-
-    context "when project does not belong to any channel" do
-      it{ should == :project_received }
-    end
-
-    context "when project does belong to a channel" do
-      let(:project) { channel_project }
-      it{ should == :project_received_channel }
+      it{ should eq(:foo_channel) }
     end
   end
 
@@ -639,7 +607,7 @@ describe Project do
 
     describe '#reject' do
       subject do
-        project.should_receive(:after_transition_of_draft_to_rejected)
+        project.should_receive(:notify_observers).with(:from_draft_to_rejected)
         project.reject
         project
       end
@@ -660,7 +628,7 @@ describe Project do
 
     describe '#approve' do
       subject do
-        project.should_receive(:after_transition_of_draft_to_online)
+        project.should_receive(:notify_observers).with(:from_draft_to_online)
         project.approve
         project
       end
@@ -696,16 +664,6 @@ describe Project do
         end
 
         its(:failed?) { should be_true }
-      end
-
-      context 'when project is expired and the sum of the pending backers and confirmed backers reached 30% of the goal' do
-        before do
-          create(:backer, value: 100, project: main_project, created_at: 2.days.ago)
-          create(:backer, value: 9_000, project: main_project, state: 'waiting_confirmation')
-          main_project.finish
-        end
-
-        its(:waiting_funds?) { should be_true }
       end
 
       context 'when project is expired and have recent backers without confirmation' do

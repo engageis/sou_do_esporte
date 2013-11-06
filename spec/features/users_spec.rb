@@ -30,14 +30,6 @@ describe "Users" do
       updates_unsubscribe = all("#user_unsubscribes_attributes_0_subscribed")
       updates_unsubscribe.should have(1).items
     end
-
-    it "should show unsubscribe from backed projects" do
-      project_unsubscribe = all("#user_unsubscribes_attributes_1_subscribed")
-      project_unsubscribe.should have(1).items
-      find("label[for=user_unsubscribes_attributes_1_subscribed]").text.should == @project.name
-      find("#user_unsubscribes_attributes_1_project_id").value.should == @project.id.to_s
-    end
-
   end
 end
 

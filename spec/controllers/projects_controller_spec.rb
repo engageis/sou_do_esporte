@@ -58,6 +58,16 @@ describe ProjectsController do
       get :index, locale: :pt
     end
     it { should be_success }
+
+    context "with referal link" do
+      subject { controller.session[:referal_link] }
+
+      before do
+        get :index, locale: :pt, ref: 'referal'
+      end
+
+      it { should == 'referal' }
+    end
   end
 
   describe "GET new" do
@@ -80,6 +90,8 @@ describe ProjectsController do
         project.reload
         project.name.should == 'My Updated Title'
       }
+
+      it{ should redirect_to project_by_slug_path(project.permalink, anchor: 'edit') }
     end
 
     shared_examples_for "protected project" do
@@ -164,7 +176,10 @@ describe ProjectsController do
   describe "GET video" do
     context 'url is a valid video' do
       let(:video_url){ 'http://vimeo.com/17298435' }
-      before { get :video, locale: :pt, url: video_url }
+      before do
+        VideoInfo.stub(:get).and_return({video_id: 'abcd'})
+        get :video, locale: :pt, url: video_url
+      end
 
       its(:body){ should == VideoInfo.get(video_url).to_json }
     end
@@ -172,7 +187,7 @@ describe ProjectsController do
     context 'url is not a valid video' do
       before { get :video, locale: :pt, url: 'http://????' }
 
-      its(:body){ should == {video_id: false}.to_json }
+      its(:body){ should == nil.to_json }
     end
   end
 end

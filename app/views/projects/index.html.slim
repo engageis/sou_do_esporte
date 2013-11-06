@@ -1,76 +1,67 @@
-/ Temporaly using channels banner
-  = render partial: 'recommended_header'
-= render partial: 'channels/projects/banner'
+.banner
+  p.post-author= t('main.banner')
 #page_content
   .container
     .main
       - if current_user && @projects_near.present?
-        .near_projects.list
-          .list_title
-            .title
-              h2= t('sections.near.title')
+        section.near_projects.list
+          header
+            h2.list-title= t('sections.near.title')
+            = link_to t('main.links.near'), explore_path(anchor: "near_of/" ) + current_user.address_state, class: "more-projects"
           .projects
-            - @projects_near.each_with_index do |item,i|
-              == render 'project', project: item, custom_class: ((@projects_near.length == (i+1) ? 'last' : false) || (i==0 ? 'first' : false))
-          .explore_link
-            hr
-            = link_to t('main.links.near'), explore_path(anchor: :near)
-      .selected_projects.list
-        .list_title
-          .title
-            h2= t('sections.selection.title')
+            == render @projects_near
+
+      section.selected_projects.list
+        header
+          h2.list-title= t('sections.recommended.title')
+          = link_to t('main.links.recommended'), explore_path(anchor: :recommended), class: "more-projects"
         .projects
-          - @recommends.each_with_index do |item,i|
-            == render 'project', project: item, custom_class: ((@expiring.length == (i+1) ? 'last' : false) || (i==0 ? 'first' : false))
-        .explore_link
-          hr
-          = link_to t('main.links.selected'), explore_path(anchor: :recommended)
+          == render @recommends
 
-      .expiring_projects.list
-        .list_title
-          .title
-            h2= t('sections.expiring.title')
+      section.channel_projects.list
+        header
+          h2.list-title= t('sections.channels.title')
+          = link_to t('main.links.channels'), root_url(subdomain: 'asas'), class: "more-projects"
         .projects
-          - @expiring.each_with_index do |item,i|
-            == render 'project', project: item, custom_class: ((@expiring.length == (i+1) ? 'last' : false) || (i==0 ? 'first' : false))
-        .explore_link
-          hr
-          = link_to t('main.links.expiring'), explore_path(anchor: :expiring)
+          == render @channel_projects
 
-      .recents_projects.list
-        .list_title
-          .title
-            h2= t('sections.recents.title')
+      section.expiring_projects.list
+        header
+          h2.list-title= t('sections.expiring.title')
+          = link_to t('main.links.expiring'), explore_path(anchor: :expiring), class: "more-projects"
         .projects
-          - @recent.each_with_index do |item,i|
-            == render 'project', project: item, custom_class: ((@recent.length == (i+1) ? 'last' : false) || (i==0 ? 'first' : false))
-        .explore_link
-          hr
-          = link_to t('main.links.recents'), explore_path(anchor: :recent)
+          == render @expiring
 
-    .sidebar
-      .content
-        .blog
-          h3= t('sidebar.titles.blog')
-          ul.posts
-            - (Blog.fetch_last_posts rescue [])[0..2].each do |post|
-              li
-                h2
-                  = link_to post.url, target: '__blank' do
-                    /= image_tag("catarse/post_title_image.png")
-                    = truncate(post.title, length: 80)
-                p.author= "#{t('projects.box.by')} #{post.author}"
-                = link_to post.url, target: '__blank', class: 'resume' do
-                  = truncate(post.summary, length: 130).html_safe
+      section.recents_projects.list
+        header
+          h2.list-title= t('sections.recents.title')
+          = link_to t('main.links.recents'), explore_path(anchor: :recent), class: "more-projects"
+        .projects
+          == render @recent
 
-        .facebook
-          h3= t('sidebar.titles.facebook')
-          .fb-like data-href="#{Configuration['facebook_url']}" data-send="false" data-width="160" data-show-faces="true"
-        #twitter.twitter[data-username="@#{Configuration['twitter_username']}"]
-        .newsletter
-          h3= t('sidebar.titles.newsletter')
-          = form_tag Configuration['mailchimp_url'], id: 'mailee-form', method: 'post' do
-            = text_field_tag 'EMAIL', nil, placeholder: 'email@email.com', label: 'email'
-            = submit_tag t('sidebar.buttons.newsletter')
+    aside.main-sidebar
+      section.main-sidebar-division
+        h3.title= t('sidebar.titles.blog')
+        ul
+          - (Blog.fetch_last_posts rescue [])[0..2].each do |post|
+            li.post
+              h2
+                = link_to post.url, target: '__blank', class: 'post-title' do
+                  = truncate(post.title, length: 80)
+              p.post-author= "#{t('projects.box.by')} #{post.author} #{t('projects.box.when')} #{l(post.published.to_date)}"
+              = link_to post.url, target: '__blank', class: 'post-resume' do
+                = truncate(post.summary, length: 130).html_safe
+
+      section.main-sidebar-division
+        h3.title= t('sidebar.titles.newsletter')
+        = render 'layouts/newsletter'
+
+
+      section.main-sidebar-division
+        .fb-like-box data-href="#{Configuration['facebook_url']}" data-width="200" data-height="300" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"
+
+
+      section.main-sidebar-division
+        = link_to t('sidebar.titles.twitter'), "https://twitter.com/#{Configuration['twitter_username']}", class: 'twitter-timeline', data:{widget_id:"375343843308089345", chrome:"nofooter"}
+
     .clearfix
-

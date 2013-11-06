@@ -10,7 +10,7 @@ class Projects::UpdatesController < ApplicationController
   end
 
   def index
-    render end_of_association_chain.page(params[:page]).per(3)
+    render collection.page(params[:page]).per(3)
   end
 
   def create
@@ -20,5 +20,9 @@ class Projects::UpdatesController < ApplicationController
 
   def destroy
     destroy!{|format| return index }
+  end
+
+  def collection
+    @updates ||= end_of_association_chain.visible_to(current_user)
   end
 end

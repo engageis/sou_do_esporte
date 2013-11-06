@@ -29,10 +29,10 @@
           font-family: "Lato"
           font-style: italic
           font-size: 18px
-          color: #E75297
+          color: $pink
           text-shadow: 1px 1px white
         a
-          color: #E75297
+          color: $pink
           text-decoration: none
           &:hover
             text-decoration: underline
@@ -112,6 +112,15 @@
           text-decoration: none
           &:hover
             text-decoration: underline
+        .project-channel
+          background: #409BFF
+          border-radius: 4px
+          color: #FFFFFF
+          display: inline-block
+          font-size: 0.6em
+          margin: 0 0 0 15px
+          padding: 4px 12px
+          text-transform: uppercase
     .main
       +grid(11)
       padding-bottom: 20px
@@ -177,6 +186,7 @@
           strong
             font-weight: bold
           a
+            word-wrap: break-word
             color: $pink
             text-decoration: none
             &:hover
@@ -184,6 +194,9 @@
 
       #project_backers
         margin-top: 20px
+        input[type="radio"]
+          margin-bottom: 30px
+          margin-left: 10px
         .backer
           width: 286px
           float: left
@@ -579,7 +592,7 @@
     #project_edit, #project_reports
       .bootstrap-twitter
         a
-          color: #E75297
+          color: $pink
         p
           font-family: "Lato"
           font-style: italic
@@ -609,7 +622,7 @@
         textarea, input[type='text']
           width: 70%
         label
-          color: #E75297
+          color: $pink
           float: left
           font-family: "Lato"
           font-style: italic
@@ -633,7 +646,6 @@
             width: 255px
         #formatting_tips
           float: right
-          padding: 10px
           width: 70%
         .form-actions
           background: none
@@ -641,11 +653,11 @@
           padding: 0
           margin: 0
           .btn
-            border: solid 1px #C2457E
+            border: solid 1px $darker_pink
             color: white
             display: block
             font-family: "Lato"
-            text-shadow: 1px 1px #C2457E
+            text-shadow: 1px 1px $darker_pink
             font-size: 12px
             height: 46px
             padding: 0 15px 0 45px
@@ -654,9 +666,9 @@
             margin-right: 10px
             float: right
             +border-radius (10px)
-            background: #E75297 url($images_path+"icon_refreshproject.png") 10px 9px no-repeat
+            background: $pink url($images_path+"icon_refreshproject.png") 10px 9px no-repeat
             &:hover
-              background-color: #C2457E
+              background-color: $darker_pink
     #project_updates
       em
         font-family: "Lato"
@@ -694,11 +706,11 @@
         padding: 0
         margin: 0
         .btn
-          border: solid 1px #C2457E
+          border: solid 1px $darker_pink
           color: white
           display: block
           font-family: "Lato"
-          text-shadow: 1px 1px #C2457E
+          text-shadow: 1px 1px $darker_pink
           font-size: 12px
           height: 46px
           padding: 0 15px 0 45px
@@ -707,10 +719,11 @@
           margin-right: 10px
           float: left
           +border-radius (10px)
-          background: #E75297 url($images_path+"icon_refreshproject.png") 10px 9px no-repeat
+          background: $pink url($images_path+"icon_refreshproject.png") 10px 9px no-repeat
           &:hover
-            background-color: #C2457E
+            background-color: $darker_pink
     #formatting_tips
+      padding: 10px
       background: #F7F7F7
       border: 1px solid #EDEDED
       margin-right: 10px
@@ -734,7 +747,7 @@
         margin-top: 10px
         padding-bottom: 10px
       a
-        color: #E75297
+        color: $pink
         text-decoration: none
         &:hover
           text-decoration: underline

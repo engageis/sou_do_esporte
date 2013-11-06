@@ -1,4 +1,4 @@
-App.addChild('ReviewForm', {
+App.addChild('ReviewForm', _.extend({
   el: 'form#review_form',
 
   events: {
@@ -15,30 +15,16 @@ App.addChild('ReviewForm', {
     if(this.validate()){
       $('#payment').show();
       this.updateBacker();
+    } else {
+      return false;
     }
-  },
-
-  validate: function(){
-    var valid = true;
-    this.$('input:visible').each(function(){
-      valid = valid && this.checkValidity();
-    });
-    this.$('input.error:visible:first').select();
-    return valid;
   },
 
   activate: function(){
-    this.$('input').on('invalid', this.invalid);
-  },
-
-  checkInput: function(event){
-    if(event.currentTarget.checkValidity()){
-      this.$(event.currentTarget).removeClass("error");
+    this.setupForm();
+    if(this.$('#live_in_brazil:checked').length == 0){
+      this.$('fieldset.address_data').hide();
     }
-  },
-
-  invalid: function(event){
-    this.$(event.currentTarget).addClass("error");
   },
 
   updateBacker: function(){
@@ -55,8 +41,9 @@ App.addChild('ReviewForm', {
       address_phone_number: this.$('#user_phone_number').val()
     }
     $.post(this.$el.data('update-info-path'), {
+      _method: 'put',
       backer: backer_data
     });
   }
-});
+}, Skull.Form));
 

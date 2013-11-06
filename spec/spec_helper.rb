@@ -11,6 +11,10 @@ require 'sidekiq/testing'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+# Checks for pending migrations before tests are run.
+# If you are not using ActiveRecord, you can remove this line.
+ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include ActionView::Helpers::TextHelper
@@ -33,6 +37,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     ActiveRecord::Base.connection.execute "SET client_min_messages TO warning;"
+    ActiveRecord::Base.connection.execute "SET timezone TO 'utc';"
     DatabaseCleaner.clean_with :truncation
     I18n.locale = :pt
     I18n.default_locale = :pt
@@ -53,6 +58,14 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  [:controller, :feature].each do |spec_type|
+    config.before(:each, type: spec_type) do
+      [:detect_old_browsers, :render_facebook_sdk, :render_facebook_like, :render_twitter, :display_uservoice_sso].each do |method|
+        ApplicationController.any_instance.stub(method)
+      end
+    end
+  end
+
   # Stubs and configuration
   config.before(:each) do
     CatarseMailchimp::API.stub(:subscribe).and_return(true)
@@ -69,13 +82,7 @@ RSpec.configure do |config|
     Notification.stub(:create_notification_once)
     Calendar.any_instance.stub(:fetch_events_from)
     Blog.stub(:fetch_last_posts).and_return([])
-    [Projects::BackersController, Users::BackersController, UsersController, UnsubscribesController, ProjectsController, ExploreController].each do |c|
-      c.any_instance.stub(:render_facebook_sdk)
-      c.any_instance.stub(:render_facebook_like)
-      c.any_instance.stub(:render_twitter)
-      c.any_instance.stub(:display_uservoice_sso)
-    end
-    Configuration[:base_domain] = 'localhost'
+    ::Configuration[:base_domain] = 'localhost'
     ::Configuration['email_contact'] = 'foo@bar.com'
   end
 end
