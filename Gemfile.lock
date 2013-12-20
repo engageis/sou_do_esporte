@@ -46,14 +46,6 @@ GIT
       responders
 
 GIT
-  remote: git://github.com/milgner/compass-rails.git
-  revision: 1749c06f15dc4b058427e7969810457213647fb8
-  ref: 1749c06f15dc4b058427e7969810457213647fb8
-  specs:
-    compass-rails (1.0.3)
-      compass (>= 0.12.2, < 0.14)
-
-GIT
   remote: git://github.com/ryanb/cancan.git
   revision: f1cebde51a87be149b4970a3287826bb63c0ac0b
   ref: f1cebde51a87be149b4970a3287826bb63c0ac0b
@@ -152,6 +144,8 @@ GEM
       sass (~> 3.1)
     compass-960-plugin (0.10.4)
       compass (>= 0.10.0)
+    compass-rails (1.0.3)
+      compass (>= 0.12.2, < 0.14)
     connection_pool (1.1.0)
     coveralls (0.6.7)
       colorize
@@ -482,7 +476,7 @@ DEPENDENCIES
   chartkick
   coffee-rails (~> 4.0.0)
   compass-960-plugin
-  compass-rails!
+  compass-rails
   coveralls
   database_cleaner
   devise (~> 3.0.2)
