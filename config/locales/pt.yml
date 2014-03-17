@@ -327,6 +327,7 @@ pt:
       submit_project: Envie
       profile: "Meu perfil"
       account: "Minha conta"
+      about_the_project: 'Sobre o Projeto'
     user:
       logout: Sair
       my_credits: "Meus créditos"

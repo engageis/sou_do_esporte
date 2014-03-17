@@ -88,8 +88,8 @@ en:
       faq: F.A.Q./Help
       terms: "Terms of use"
       policy: "Privacy Policy"
-      terms_link: 'http://suporte.catarse.me/knowledgebase/articles/161102-terms-of-use'
-      policy_link: 'http://suporte.catarse.me/knowledgebase/articles/161104-privacy-policy'
+      terms_link: 'https://soudoesporte.uservoice.com/knowledgebase/articles/279100-temos-de-uso'
+      policy_link: 'https://soudoesporte.uservoice.com/knowledgebase/articles/279650-pol%C3%ADtica-de-privacidade'
       contact: Contact
   main:
     links:
@@ -319,6 +319,7 @@ en:
       submit_project: Submit
       profile: "my profile"
       account: "my account"
+      about_the_project: 'About the project'
     user:
       logout: Logout
       my_credits: "My credit"
