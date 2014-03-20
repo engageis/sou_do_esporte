@@ -121,7 +121,7 @@ pt:
     expiring:
       title: "Perto da linha de chegada"
     recents:
-      title: "Foi dada a largada!"
+      title: "Bem sucedidos"
     partners:
       title: 'Parceiros'
   accept_terms_html: "Eu li e estou de acordo com os %{link}."

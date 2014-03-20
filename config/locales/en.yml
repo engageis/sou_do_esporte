@@ -114,7 +114,7 @@ en:
     expiring:
       title: expiring
     recents:
-      title: recent
+      title: successful
     partners:
       title: partners
   accept_terms_html: "I have read and accepted the %{link}."

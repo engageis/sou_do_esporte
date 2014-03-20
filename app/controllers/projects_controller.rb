@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
 
           @projects_near = Project.online.near_of(current_user.address_state).order("random()").limit(3) if current_user
           @expiring = ProjectsForHome.expiring
-          @recent   = ProjectsForHome.recents
+          @recent   = Project.by_state(:successful)
         end
       end
     end
