@@ -64,9 +64,9 @@
                   = truncate(post.summary, length: 130).html_safe
 
         .facebook
-          h3= t('sidebar.titles.facebook')
+          // h3= t('sidebar.titles.facebook')
           .fb-like data-href="#{Configuration['facebook_url']}" data-send="false" data-width="160" data-show-faces="true"
-        #twitter.twitter[data-username="@#{Configuration['twitter_username']}"]
+        //#twitter.twitter[data-username="@#{Configuration['twitter_username']}"]
         .newsletter
           h3= t('sidebar.titles.newsletter')
           = form_tag Configuration['mailchimp_url'], id: 'mailee-form', method: 'post' do

@@ -1,13 +1,13 @@
 .sidebar
   .content
-    padding: 33px 0 0 22px
+    padding-top: 34px
     .blog
       h3
         font-family: $font
         font-weight: bold
         font-size: 16px
-        background: url($images_path+'blog_icon17x14.png') left 5px no-repeat
-        text-indent: 25px
+        //background: url($images_path+'blog_icon17x14.png') left 5px no-repeat
+        //text-indent: 25px
         color: black
         padding-bottom: 25px
       ul
@@ -84,31 +84,32 @@
       float: left
       padding-bottom: 30px
       margin-top: 30px
-      border-bottom: 1px rgba(black, 0.1) solid
+
       h3
         font-family: $font
         font-weight: bold
         font-size: 16px
-        background: url($images_path+'newsletter_icon18x15.png') left 2px no-repeat
-        text-indent: 25px
+        //background: url($images_path+'newsletter_icon18x15.png') left 2px no-repeat
+        //text-indent: 25px
         color: black
         padding-bottom:  25px
       form
         input[type='text']
-          width:  183px
+          width: 100%
           height: 27px
           border: 1px $minimal_gryn solid
-          text-align: center
-          +border-radius(21px)
+          text-align: left
+          +border-radius(4px)
+          text-indent: 8px
         input[type="submit"]
-          +border-radius(2px)
+          +border-radius(4px)
           background: #2FADE2
           color: white
           border: none
           margin-top: 10px
-          padding: 3px 15px 6px 16px
+          padding: 7px 21px 6px 16px
           float:  right
-          margin-right:  12px
+          //margin-right:  12px
           font-family: $font
           font-size: 16px
           &:active

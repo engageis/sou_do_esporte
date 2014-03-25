@@ -106,13 +106,13 @@ pt:
       near: "Explore mais projetos próximos"
   sidebar:
     titles:
-      blog: blog
+      blog: Blog
       facebook: "já curtiu nosso face?"
-      newsletter: "quer novidades?"
-      faq: "tá com dúvida?"
-      schedule: agenda
+      newsletter: "Quer novidades?"
+      faq: "Alguma dúvida?"
+      schedule: Agenda
     buttons:
-      newsletter: assinar
+      newsletter: Assinar
   sections:
     near:
       title: 'Próximos a mim'

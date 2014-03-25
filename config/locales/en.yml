@@ -100,12 +100,12 @@ en:
   sidebar:
     titles:
       blog: Blog
-      facebook: "Have you liked our facebook page yet?"
-      newsletter: "Do you want to receive our news?"
+      facebook: "Our facebook page yet?"
+      newsletter: "Sign up for news"
       faq: "Dou you have any doubt?"
-      schedule: calendar
+      schedule: Calendar
     buttons:
-      newsletter: submit
+      newsletter: Submit
   sections:
     near:
       title: near me
