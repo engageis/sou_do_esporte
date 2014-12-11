@@ -52,7 +52,8 @@ class User < ActiveRecord::Base
     :twitter,
     :facebook_link,
     :other_link,
-    :moip_login
+    :moip_login,
+    :bank_account_attributes
 
   mount_uploader :uploaded_image, UserUploader
 
