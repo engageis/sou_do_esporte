@@ -8,15 +8,6 @@ GIT
       railties (~> 4.0)
 
 GIT
-  remote: git://github.com/bernat/best_in_place.git
-  revision: 366413be357d65cdf47031e928aea969f72e3659
-  branch: rails-4
-  specs:
-    best_in_place (2.0.3)
-      jquery-rails
-      rails (~> 4)
-
-GIT
   remote: git://github.com/catarse/catarse_mailchimp
   revision: 2ed4f3931dfa292e5c1c62619772f04e41c68629
   ref: 2ed4f39
@@ -33,17 +24,6 @@ GIT
       activesupport (>= 2.3.2)
       httparty (~> 0.6.1)
       nokogiri (~> 1.5.0)
-
-GIT
-  remote: git://github.com/josemarluedke/postgres-copy.git
-  revision: 41afec70f5c6b2431f045388b14a80d194329a20
-  branch: rails4
-  specs:
-    postgres-copy (0.6.0)
-      activerecord (>= 3.0.0)
-      pg
-      rails (>= 3.0.0)
-      responders
 
 GIT
   remote: git://github.com/ryanb/cancan.git
@@ -101,6 +81,9 @@ GEM
       rinku
       tag_helper
     bcrypt-ruby (3.1.1)
+    best_in_place (3.0.0)
+      actionpack (>= 3.2)
+      railties (>= 3.2)
     better_errors (0.9.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -301,6 +284,11 @@ GEM
       faye-websocket (>= 0.4.4, < 0.5.0)
       http_parser.rb (~> 0.5.3)
     polyglot (0.3.3)
+    postgres-copy (0.9.0)
+      activerecord (>= 4.0)
+      pg (>= 0.17)
+      rails (>= 4.0)
+      responders
     protected_attributes (1.0.3)
       activemodel (>= 4.0.0, < 5.0)
     pry (0.9.12.2)
@@ -464,7 +452,7 @@ PLATFORMS
 DEPENDENCIES
   RedCloth
   auto_html (= 1.4.2)
-  best_in_place!
+  best_in_place
   better_errors
   binding_of_caller
   cancan!
@@ -510,7 +498,7 @@ DEPENDENCIES
   pg
   pg_search
   poltergeist
-  postgres-copy!
+  postgres-copy
   protected_attributes (~> 1.0.3)
   pry
   rack-timeout
