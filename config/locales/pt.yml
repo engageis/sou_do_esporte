@@ -177,11 +177,21 @@ pt:
         password: Senha
         password_confirmation: "Confirmação de senha"
         phone_number: "Telefone (fixo ou celular)"
+      bank_account:
+        bank: 'Banco'
+        bank_id: 'Banco'
+        owner_name: 'Nome do titular'
+        owner_document: 'CPF / CNPJ do titular'
+        agency: 'Agência'
+        agency_digit: 'Dígito'
+        account: 'Número da conta'
+        account_digit: 'Dígito'
     models:
       backer: Apoiador
       category: Categoria
       project: Projeto
       reward: Recompensa
+      bank_account: Dados bancários
   backer:
     display_confirmed_at: "Há %{time_ago}"
     reward_must_be_from_project: "deve ser do mesmo projeto"
@@ -838,6 +848,8 @@ pt:
       title: "Escolha de quais projetos você deseja receber notificações:"
       updates: "Eu quero receber atualizações dos projetos"
     current_user_fields:
+      bank_account_title: "Dados bancários"
+      bank_account_hint: "Seus dados bancários serão utilizados para realizar o reembolso integral do seu apoio, caso o projeto não atinja 100% da meta estabelecida."
       my_facebook: 'Integração com o facebook'
       bio_limit: 'até 140 caracteres'
       updated: "As suas informações foram atualizadas"
