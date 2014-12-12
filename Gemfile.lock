@@ -46,17 +46,6 @@ GEM
       erubis (~> 2.7.0)
       rack (~> 1.5.2)
       rack-test (~> 0.6.2)
-    active_utils (2.0.0)
-      activesupport (>= 2.3.11)
-      i18n
-    activemerchant (1.36.0)
-      active_utils (>= 1.0.2)
-      activesupport (>= 2.3.14)
-      builder (>= 2.0.0)
-      i18n
-      json (>= 1.5.1)
-      money
-      nokogiri (< 1.6.0)
     activemodel (4.0.0)
       activesupport (= 4.0.0)
       builder (~> 3.1.0)
@@ -99,13 +88,9 @@ GEM
     carrierwave (0.8.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
-    catarse_moip (2.0.0)
-      libxml-ruby (~> 2.6.0)
+    catarse_pagarme (1.4.8)
+      pagarme (~> 1.9.8)
       rails (~> 4.0)
-    catarse_paypal_express (2.0.0)
-      activemerchant (>= 1.34.0)
-      rails (~> 4.0)
-      slim-rails
     celluloid (0.14.1)
       timers (>= 1.0.0)
     chartkick (1.2.0)
@@ -231,7 +216,6 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.1.2)
       launchy (~> 2.2)
-    libxml-ruby (2.6.0)
     loofah (1.2.1)
       nokogiri (>= 1.4.4)
     mail (2.5.3)
@@ -243,8 +227,6 @@ GEM
     method_source (0.8.2)
     mime-types (1.24)
     minitest (4.7.5)
-    money (5.1.1)
-      i18n (~> 0.6.0)
     multi_json (1.7.9)
     multipart-post (1.2.0)
     net-scp (1.1.2)
@@ -274,6 +256,9 @@ GEM
       multi_json (~> 1.3)
       omniauth-oauth (~> 1.0)
     orm_adapter (0.4.0)
+    pagarme (1.9.8)
+      multi_json
+      rest-client
     pg (0.17.0)
     pg_search (0.7.0)
       activerecord (>= 3.1)
@@ -459,8 +444,7 @@ DEPENDENCIES
   capybara (~> 2.1.0)
   carrierwave (~> 0.8.0)
   catarse_mailchimp!
-  catarse_moip (~> 2.0.0)
-  catarse_paypal_express (~> 2.0.0)
+  catarse_pagarme (= 1.4.8)
   chartkick
   coffee-rails (~> 4.0.0)
   compass-960-plugin
