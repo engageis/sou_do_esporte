@@ -102,6 +102,7 @@ Catarse::Application.routes.draw do
   end
   resources :users do
     resources :projects, controller: 'users/projects', only: [ :index ]
+    resources :credit_cards, controller: 'users/credit_cards', only: [ :destroy ]
     collection do
       get :uservoice_gadget
     end

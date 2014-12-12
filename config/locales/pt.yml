@@ -823,9 +823,16 @@ pt:
       site_title: 'Defina um email de contato'
       title: 'Defina um email de contato'
       submit: 'Gravar o email e prosseguir'
+    credit_cards:
+      index:
+        last_digits: 'Cartão'
+        brand: 'Operadora'
+        title: 'Cartões de credito'
+        remove: 'Remover'
     show:
       attention: "Atenção"
       tabs:
+        credit_cards: "Cartões de credito"
         backed_projects: "Projetos apoiados"
         created_projects: "Projetos criados"
         comments: Comentários

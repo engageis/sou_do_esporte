@@ -20,6 +20,7 @@ class UsersController < ApplicationController
       @credits = @user.backs.can_refund
       @subscribed_to_updates = @user.updates_subscription
       @unsubscribes = @user.project_unsubscribes
+      @credit_cards = @user.credit_cards
       build_bank_account
     }
   end
