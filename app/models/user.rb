@@ -70,6 +70,7 @@ class User < ActiveRecord::Base
   schema_associations
   has_many :oauth_providers, through: :authorizations
   has_many :backs, class_name: "Backer"
+  has_many :credit_cards
   has_one :user_total
   has_one :bank_account
   has_and_belongs_to_many :recommended_projects, join_table: :recommendations, class_name: 'Project'
