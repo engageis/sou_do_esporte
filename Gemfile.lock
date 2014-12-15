@@ -33,6 +33,22 @@ GIT
   specs:
     cancan (2.0.0.alpha)
 
+GIT
+  remote: git://github.com/widernet/best_in_place.git
+  revision: 964f3f36fe24cd7cd304b44f4ffac2ee1de3cd1e
+  branch: rails-4
+  specs:
+    best_in_place (2.0.3)
+      jquery-rails
+      rails (~> 4)
+
+PATH
+  remote: ~/code/soudoesporte_pagarme
+  specs:
+    catarse_pagarme (2.3.9)
+      pagarme (~> 1.9.8)
+      rails (~> 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -63,16 +79,12 @@ GEM
       tzinfo (~> 0.3.37)
     addressable (2.3.5)
     arel (4.0.0)
-    atomic (1.1.13)
     auto_html (1.4.2)
       RedCloth
       redcarpet
       rinku
       tag_helper
     bcrypt-ruby (3.1.1)
-    best_in_place (3.0.0)
-      actionpack (>= 3.2)
-      railties (>= 3.2)
     better_errors (0.9.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -88,9 +100,6 @@ GEM
     carrierwave (0.8.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
-    catarse_pagarme (1.4.8)
-      pagarme (~> 1.9.8)
-      rails (~> 4.0)
     celluloid (0.14.1)
       timers (>= 1.0.0)
     chartkick (1.2.0)
@@ -192,7 +201,7 @@ GEM
       crack (= 0.1.8)
     httpauth (0.2.0)
     httpclient (2.3.4.1)
-    i18n (0.6.5)
+    i18n (0.6.11)
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
       responders (~> 1.0.0.rc)
@@ -227,7 +236,7 @@ GEM
     method_source (0.8.2)
     mime-types (1.24)
     minitest (4.7.5)
-    multi_json (1.7.9)
+    multi_json (1.10.1)
     multipart-post (1.2.0)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -309,7 +318,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     raindrops (0.11.0)
-    rake (10.1.0)
+    rake (10.4.2)
     ranked-model (0.3)
       activerecord (>= 3.1.12)
     redcarpet (3.0.0)
@@ -371,6 +380,9 @@ GEM
       json
       redis (>= 3.0)
       redis-namespace
+    simple_form (3.0.0)
+      actionpack (>= 4.0.0, < 4.1)
+      activemodel (>= 4.0.0, < 4.1)
     simplecov (0.7.1)
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
@@ -404,15 +416,14 @@ GEM
       activemodel (>= 3.0.0.beta)
     tag_helper (0.0.3)
     temple (0.6.6)
-    thor (0.18.1)
-    thread_safe (0.1.2)
-      atomic
+    thor (0.19.1)
+    thread_safe (0.3.4)
     tilt (1.4.1)
     timers (1.1.0)
     treetop (1.4.14)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.37)
+    tzinfo (0.3.42)
     uglifier (2.1.2)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
@@ -437,14 +448,14 @@ PLATFORMS
 DEPENDENCIES
   RedCloth
   auto_html (= 1.4.2)
-  best_in_place
+  best_in_place!
   better_errors
   binding_of_caller
   cancan!
   capybara (~> 2.1.0)
   carrierwave (~> 0.8.0)
   catarse_mailchimp!
-  catarse_pagarme (= 1.4.8)
+  catarse_pagarme!
   chartkick
   coffee-rails (~> 4.0.0)
   compass-960-plugin
@@ -500,6 +511,7 @@ DEPENDENCIES
   selenium-webdriver (~> 2.34.0)
   shoulda
   sidekiq (~> 2.13.0)
+  simple_form
   sinatra
   slim-rails (~> 1.1.1)
   spectator-validates_email

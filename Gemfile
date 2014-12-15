@@ -12,8 +12,9 @@ gem 'sidekiq',  '~> 2.13.0'
 gem 'sinatra', require: false # required by sidekiq web interface mounted on /sidekiq
 
 # Turns every field on a editable one
-#gem 'best_in_place', github: 'bernat/best_in_place', branch: 'rails-4'
-gem 'best_in_place'
+gem 'best_in_place', github: 'widernet/best_in_place', branch: 'rails-4'
+#gem 'best_in_place', github: 'bernat/best_in_place', ref: '769ba1887feafb2b46693fe52c2953230d61c5e1'
+#gem 'best_in_place', '2.1.3'
 
 # State machine for attributes on models
 gem 'state_machine', require: 'state_machine/core'
@@ -32,7 +33,7 @@ gem 'chartkick'
 # Payment engines
 #gem 'catarse_paypal_express', '~> 2.0.0'
 #gem 'catarse_moip', '~> 2.0.0'
-gem 'catarse_pagarme', '1.4.8'
+gem 'catarse_pagarme', path: '~/code/soudoesporte_pagarme'
 #
 # Decorators
 gem 'draper'
@@ -57,6 +58,7 @@ gem 'catarse_mailchimp', git: 'git://github.com/catarse/catarse_mailchimp', ref:
 
 # HTML manipulation and formatting
 gem 'formtastic',   '~> 2.2.1'
+gem 'simple_form'
 gem "auto_html",    '= 1.4.2'
 gem 'kaminari'
 
