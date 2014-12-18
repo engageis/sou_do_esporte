@@ -139,6 +139,7 @@ end
 gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem "compass-rails", '~> 1.1.0'
+gem 'sprockets', '2.10.0'
 gem 'uglifier'
 gem 'compass-960-plugin'
 
