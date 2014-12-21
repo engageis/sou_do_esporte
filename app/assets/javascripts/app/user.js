@@ -12,6 +12,7 @@ App.addChild('User', _.extend({
     this.makeRoute('credits');
     this.makeRoute('settings');
     this.makeRoute('unsubscribes');
+    this.makeRoute('credit_cards');
   },
 
   makeRoute: function(name){

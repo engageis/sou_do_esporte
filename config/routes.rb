@@ -24,8 +24,9 @@ Catarse::Application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-  mount CatarsePaypalExpress::Engine => "/", as: :catarse_paypal_express
-  mount CatarseMoip::Engine => "/", as: :catarse_moip
+  #mount CatarsePaypalExpress::Engine => "/", as: :catarse_paypal_express
+  #mount CatarseMoip::Engine => "/", as: :catarse_moip
+  mount CatarsePagarme::Engine => "/", as: :catarse_pagarme
 
   # Non production routes
   if Rails.env.development?
@@ -102,6 +103,7 @@ Catarse::Application.routes.draw do
   end
   resources :users do
     resources :projects, controller: 'users/projects', only: [ :index ]
+    resources :credit_cards, controller: 'users/credit_cards', only: [ :destroy ]
     collection do
       get :uservoice_gadget
     end

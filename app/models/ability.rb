@@ -26,6 +26,11 @@ class Ability
       project.user == current_user && ( project.draft? || project.rejected? )
     end
 
+    # NOTE: Credit card authorizations
+    can :access, :credit_cards do |credit_card|
+      credit_card.user == current_user
+    end
+
 
     # NOTE: Reward authorizations
     can :create, :rewards do |reward|

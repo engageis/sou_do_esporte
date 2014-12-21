@@ -20,6 +20,8 @@ class UsersController < ApplicationController
       @credits = @user.backs.can_refund
       @subscribed_to_updates = @user.updates_subscription
       @unsubscribes = @user.project_unsubscribes
+      @credit_cards = @user.credit_cards
+      build_bank_account
     }
   end
 
@@ -73,5 +75,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @credits = @user.backs.can_refund.order(:id).all
     render json: @credits
+  end
+
+  private
+  def build_bank_account
+    @user.build_bank_account unless @user.bank_account
   end
 end

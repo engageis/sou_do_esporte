@@ -1,6 +1,8 @@
 #page_content
   .container
     #project_review data-thank-you-path=project_backer_path(project_id: @project.id, id: @backer.id)
+      = hidden_field_tag :contribution_id, @backer.id
+      = hidden_field_tag :project_id, @project.id
       .project_info
         = image_tag @project.display_image, id: 'project_image', alt: @project.name, width: '250px'
         h1= t('.you_are_about_html', link: link_to(@project.name, project_by_slug_path(permalink: @project.permalink)))
@@ -65,10 +67,10 @@
           .tab_container
             nav#payment_menu
               - PaymentEngines.engines.each do |engine|
-                - unless engine[:name] == 'moip'
-                  = link_to "##{engine[:name]}_payment", id: engine[:name], class: 'selected enabled' , data: {target: "##{engine[:name]}_payment"} do
-                    = t("projects.backers.review.#{engine[:name]}")
+                - unless engine.name == 'moip'
+                  = link_to "##{engine.name}_payment", id: engine.name, class: 'selected enabled' , data: {target: "##{engine.name}_payment"} do
+                    = t("projects.backers.review.#{engine.name}")
           .tab_content_container
             - PaymentEngines.engines.each do |engine|
-              div[id="#{engine[:name]}_payment" class="payments_type hide" data-path=engine[:review_path].call(@backer) ]
+              div[id="#{engine.name}_payment" class="payments_type hide" data-path=engine.review_path(@backer) ]
     .clearfix

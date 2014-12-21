@@ -12,7 +12,9 @@ gem 'sidekiq',  '~> 2.13.0'
 gem 'sinatra', require: false # required by sidekiq web interface mounted on /sidekiq
 
 # Turns every field on a editable one
-gem 'best_in_place', github: 'bernat/best_in_place', branch: 'rails-4'
+gem 'best_in_place', github: 'widernet/best_in_place', branch: 'rails-4'
+#gem 'best_in_place', github: 'bernat/best_in_place', ref: '769ba1887feafb2b46693fe52c2953230d61c5e1'
+#gem 'best_in_place', '2.1.3'
 
 # State machine for attributes on models
 gem 'state_machine', require: 'state_machine/core'
@@ -22,15 +24,16 @@ gem 'paper_trail', github: 'airblade/paper_trail', branch: 'rails4'
 
 # Database and data related
 gem 'pg'
-gem 'postgres-copy', github: 'josemarluedke/postgres-copy', branch: 'rails4'
+gem 'postgres-copy'#, github: 'josemarluedke/postgres-copy', branch: 'rails4'
 gem 'pg_search'
 gem 'schema_plus', '~> 1.2.0'
 gem 'schema_associations', '~> 1.2.0'
 gem 'chartkick'
 
 # Payment engines
-gem 'catarse_paypal_express', '~> 2.0.0'
-gem 'catarse_moip', '~> 2.0.0'
+#gem 'catarse_paypal_express', '~> 2.0.0'
+#gem 'catarse_moip', '~> 2.0.0'
+gem 'catarse_pagarme', github: 'engageis/catarse_pagarme', branch: 'v1'
 #
 # Decorators
 gem 'draper'
@@ -55,6 +58,7 @@ gem 'catarse_mailchimp', git: 'git://github.com/catarse/catarse_mailchimp', ref:
 
 # HTML manipulation and formatting
 gem 'formtastic',   '~> 2.2.1'
+gem 'simple_form'
 gem "auto_html",    '= 1.4.2'
 gem 'kaminari'
 
@@ -135,6 +139,7 @@ end
 gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem "compass-rails", '~> 1.1.0'
+gem 'sprockets', '2.10.0'
 gem 'uglifier'
 gem 'compass-960-plugin'
 

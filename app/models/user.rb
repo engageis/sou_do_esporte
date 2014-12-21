@@ -52,7 +52,8 @@ class User < ActiveRecord::Base
     :twitter,
     :facebook_link,
     :other_link,
-    :moip_login
+    :moip_login,
+    :bank_account_attributes
 
   mount_uploader :uploaded_image, UserUploader
 
@@ -69,7 +70,9 @@ class User < ActiveRecord::Base
   schema_associations
   has_many :oauth_providers, through: :authorizations
   has_many :backs, class_name: "Backer"
+  has_many :credit_cards
   has_one :user_total
+  has_one :bank_account
   has_and_belongs_to_many :recommended_projects, join_table: :recommendations, class_name: 'Project'
 
 
@@ -80,6 +83,7 @@ class User < ActiveRecord::Base
   has_many :channels_subscribers
 
   accepts_nested_attributes_for :unsubscribes, allow_destroy: true rescue puts "No association found for name 'unsubscribes'. Has it been defined yet?"
+  accepts_nested_attributes_for :bank_account, allow_destroy: true
 
   scope :backers, -> {
     where("id IN (

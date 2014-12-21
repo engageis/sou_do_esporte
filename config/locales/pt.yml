@@ -177,11 +177,21 @@ pt:
         password: Senha
         password_confirmation: "Confirmação de senha"
         phone_number: "Telefone (fixo ou celular)"
+      bank_account:
+        bank: 'Banco'
+        bank_id: 'Banco'
+        owner_name: 'Nome do titular'
+        owner_document: 'CPF / CNPJ do titular'
+        agency: 'Agência'
+        agency_digit: 'Dígito'
+        account: 'Número da conta'
+        account_digit: 'Dígito'
     models:
       backer: Apoiador
       category: Categoria
       project: Projeto
       reward: Recompensa
+      bank_account: Dados bancários
   backer:
     display_confirmed_at: "Há %{time_ago}"
     reward_must_be_from_project: "deve ser do mesmo projeto"
@@ -396,6 +406,60 @@ pt:
         draft: "Esse projeto é apenas um rascunho e ainda não está aberto para receber apoios."
       reached_of: "Atingidos de"
       submit: "Apoiar este projeto"
+    contributions:
+      review:
+        Credits: 'Créditos'
+        error: Ooops. Ocorreu um erro ao registrar seu apoio. Por favor, tente novamente.
+        form:
+          labels:
+            payment_boleto: Pagamento com Boleto
+            payment_card: Pagamento com Cartão
+            submit: Efetuar pagamento
+            build_boleto: Gerar boleto
+            payment_boleto_subtitle: "Clique no link abaixo para ver o boleto:"
+      edit:
+        form_labels:
+          payment_card_number: 'Número do cartão de crédito'
+          payment_card_flag: 'Bandeira'
+          payment_card_source: 'Código de Segurança'
+          payment_card_date: 'Data de Expiração'
+          payment_card_name: 'Nome impresso no cartão de crédito'
+          payment_card_installments: 'Parcelas'
+        installment_with_tax: 'sem juros'
+        transaction_error: 'Transação recusada, por favor verifique novamente seus dados ou entre em contato com o banco/emissor do cartão para maiores informações.'
+        pagarme_warning_html: "O Catarse está em fase de teste de um novo meio de pagamento que facilitará o apoio financeiro e o eventual reembolso dos valores aos apoiadores. Dessa forma, alertamos que poderão ser exigidos dados extras, além daqueles mencionados nos Termos de Uso para apoiar este projeto. Qualquer dúvida ou dificuldade, entre em contato conosco pelo e-mail %{mailto} . Obrigado."
+        payment_save_card: 'Quero salvar meu cartão de crédito para facilitar apoios futuros.'
+        reward_sold_out: Essa recompensa está esgotada. Inicie um novo apoio.
+        credits_preview_html: "Você possui <strong>%{credits}</strong> em créditos para realizar esse apoio <strong>até o dia 10/11</strong>, conforme <a href='http://blog.catarse.me/simplificacao-dos-reembolsos-e-o-fim-dos-creditos/' target='__blank'>novas regras</a> divulgadas pelo Catarse."
+        credits_submit: 'Efetuar pagamento'
+        credits_title: 'Pagamento com créditos'
+        insufficient_credits: "Você possui %{credits} em créditos. Esse valor não é suficiente para realizar o apoio, por favor escolha outro meio de pagamento."
+        choose_payment: Como você quer pagar?
+        choose_payment_subtitle: Selecione abaixo uma forma de pagamento
+        cpf: 'Para prosseguir, por favor informe:'
+        credits_notice_html: Este apoio será pago com seus créditos. Após a confirmação,
+          você ficará com um saldo de <strong>%{credits}</strong> em créditos para
+          apoiar outros projetos.
+        live_in_brazil: Moro no Brasil. ( Desmarque caso o seu apoio seja internacional
+          )
+        number_card: Dados do cartão
+        owner_card: Dados do titular do cartão
+        payment_account: Pagamento com Débito em Conta
+        payment_boleto: Pagamento com Boleto
+        payment_card: Pagamento com Cartão
+        review_with_reward_html: 'Você irá apoiar com <strong>%{value}</strong> e
+          ganhará a seguinte recompensa:'
+        review_without_reward_html: Você irá apoiar com <strong>%{value}</strong>
+          e não quer nenhuma recompensa por seu apoio.
+        select_account: 'Você será redirecionado para o site do seu banco:'
+        select_boleto: 'Para prosseguir, por favor selecione:'
+        submit:
+          credits: Confirmar
+          moip: Efetuar pagamento pelo MoIP
+        subtitle: Estes dados serão informados ao organizador do projeto.
+        title: Preencha e revise os dados para pagamento
+        you_are_about_html: Você está prestes a fazer parte do grupo que faz de tudo
+          para o %{link} acontecer.
     backers:
       backer:
         anonymous_backer: "Apoiador anônimo"
@@ -813,9 +877,16 @@ pt:
       site_title: 'Defina um email de contato'
       title: 'Defina um email de contato'
       submit: 'Gravar o email e prosseguir'
+    credit_cards:
+      index:
+        last_digits: 'Cartão'
+        brand: 'Operadora'
+        title: 'Cartões de credito'
+        remove: 'Remover'
     show:
       attention: "Atenção"
       tabs:
+        credit_cards: "Cartões de credito"
         backed_projects: "Projetos apoiados"
         created_projects: "Projetos criados"
         comments: Comentários
@@ -838,6 +909,8 @@ pt:
       title: "Escolha de quais projetos você deseja receber notificações:"
       updates: "Eu quero receber atualizações dos projetos"
     current_user_fields:
+      bank_account_title: "Dados bancários"
+      bank_account_hint: "Seus dados bancários serão utilizados para realizar o reembolso integral do seu apoio, caso o projeto não atinja 100% da meta estabelecida."
       my_facebook: 'Integração com o facebook'
       bio_limit: 'até 140 caracteres'
       updated: "As suas informações foram atualizadas"
