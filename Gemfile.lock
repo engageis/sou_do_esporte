@@ -679,6 +679,7 @@ DEPENDENCIES
   sinatra
   slim-rails (~> 1.1.1)
   spectator-validates_email
+  sprockets (= 2.10.0)
   state_machine
   uglifier
   unicorn
