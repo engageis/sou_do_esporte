@@ -26,6 +26,15 @@ GIT
       nokogiri (~> 1.5.0)
 
 GIT
+  remote: git://github.com/engageis/catarse_pagarme.git
+  revision: ff69884bbcca44795091af8b7d51218a2a66da97
+  branch: v1
+  specs:
+    catarse_pagarme (1.4.8)
+      pagarme (~> 1.9.8)
+      rails (~> 4.0)
+
+GIT
   remote: git://github.com/ryanb/cancan.git
   revision: f1cebde51a87be149b4970a3287826bb63c0ac0b
   ref: f1cebde51a87be149b4970a3287826bb63c0ac0b
@@ -41,13 +50,6 @@ GIT
     best_in_place (2.0.3)
       jquery-rails
       rails (~> 4)
-
-PATH
-  remote: ~/code/soudoesporte_pagarme
-  specs:
-    catarse_pagarme (1.4.8)
-      pagarme (~> 1.9.8)
-      rails (~> 4.0)
 
 GEM
   remote: https://rubygems.org/
